@@ -10,8 +10,9 @@ const MovieAdvice = props => {
     Poster:
       "https://m.media-amazon.com/images/M/MV5BMTQwMDA5MDY1MV5BMl5BanBnXkFtZTcwMDI2NDIyMQ@@._V1_SX300.jpg",
     Year: "2001",
-    Plot:
-      "Beautiful and powerful Roman General Eroticus vows revenge after being enslaved by Dickus Gladiator."
+    Plot: " Helo all",
+    /*  "Beautiful and powerful Roman General Eroticus vows revenge after being enslaved by Dickus Gladiator.", */
+    Title: "Gladiator Eroticvs: The Lesbian Warriors"
   };
   let [height, setHeight] = useState(_prop.height);
   let [likes, setLikes] = useState(0);
@@ -27,28 +28,44 @@ const MovieAdvice = props => {
     }
   };
 
+  const addText = () => {
+    if (text !== "") {
+      return <p className="card-text">{text}</p>;
+    } else {
+      return;
+    }
+  };
+
   return (
     <div className="card text-white bg-info mb-3" style={{ width: "20rem" }}>
-      <div className="card-body text-advice-card-body">
+      <div className="card-body movie-advice-card-body">
         <h6 className="card-subtitle mb-2 text-muted">{user}</h6>
         <div className="row movie-advice-body">
-          <div className="col-6">
+          {addText()}
+          <div className="col-6 img-movie-col">
             <img src={info.Poster} className="img-movie-body" />
           </div>
-        </div>
-        <div className="row row-date-likebtn">
-          <div className="col-6 col-date-like-btn">
-            <p className="card-text">
-              <small>{date}</small>
+          <div className="col-6">
+            <h4 className="movie-title"> {info.Title} </h4>
+            <p className="movie-year">
+              <small>{info.Year}</small>
             </p>
+            <p className="movie-plot"> {info.Plot} </p>
           </div>
-          <div className="col-6 col-date-like-btn">
-            <input
-              type="button"
-              className="button btn btn-danger like-btn"
-              onClick={addLike}
-            />{" "}
-            {likes}
+          <div className="row row-date-likebtn">
+            <div className="col-6 col-date-like-btn">
+              <p className="card-text">
+                <small>{date}</small>
+              </p>
+            </div>
+            <div className="col-6 col-date-like-btn">
+              <input
+                type="button"
+                className="button btn btn-danger like-btn"
+                onClick={addLike}
+              />{" "}
+              {likes}
+            </div>
           </div>
         </div>
       </div>

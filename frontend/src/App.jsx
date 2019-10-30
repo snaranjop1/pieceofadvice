@@ -2,6 +2,7 @@ import React from "react";
 import TextAdvice from "./TextAdvice";
 import MusicAdvice from "./MusicAdvice";
 import MovieAdvice from "./MovieAdvice";
+import PoemAdvice from "./PoemAdvice";
 
 function App() {
   return (
@@ -22,11 +23,22 @@ function App() {
         />
       </div>
       <div>
+        <PoemAdvice
+          props={{
+            src: "https://open.spotify.com/embed/track/6rPO02ozF3bM7NnOV4h6s2",
+            user: "gregorioospina",
+            text: "This movie helped me alot",
+            date: "12/12/2012",
+            height: "80"
+          }}
+        />
+      </div>
+      <div>
         <MovieAdvice
           props={{
             src: "https://open.spotify.com/embed/track/6rPO02ozF3bM7NnOV4h6s2",
             user: "gregorioospina",
-            text: "",
+            text: "This movie helped me alot",
             date: "12/12/2012",
             height: "80"
           }}
