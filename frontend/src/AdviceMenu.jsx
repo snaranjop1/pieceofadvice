@@ -5,10 +5,57 @@ const AdviceMenu = props => {
   let [clicked, setClicked] = useState(false);
   let [clickedMenu, setClickedMenu] = useState(false);
   let [menuType, setMenuType] = useState("none");
+  let [err, setErr] = useState("");
+  let [text, setText] = useState("");
+  let song_template = "https://open.spotify.com/embed/track/";
+
+  let [name, setName] = useState("");
+  let [author, setAuthor] = useState("");
+
+  const fetchPoem = (title, author) => {
+    let template_title = "http://poetrydb.org/title/";
+    let template_author = "http://poetrydb.org/author/";
+    let template_both = "http://poetrydb.org/author,title/";
+    let template = "";
+    console.log("in");
+
+    if (title === "" && author === "") {
+      setErr("You must type either the title or the name of the author!");
+      return;
+    } else if (title !== "" && author !== "") {
+      template = template_both + author + ";" + title;
+    } else if (author === "") {
+      template = template_title + title;
+    } else {
+      template = template_author + author;
+    }
+    fetch(template)
+      .then(res => res.json())
+      .catch(err => {
+        setErr(err, "Not Found");
+      })
+      .then(data => {
+        let advice = {
+          type: "poem",
+          info: data[0],
+          text: text
+        };
+        console.log(advice);
+        props.addAdvice(advice);
+      });
+  };
 
   const toggleMenu = () => {
     setClickedMenu(!clickedMenu);
     setClicked(!clicked);
+  };
+
+  const handleNameChange = e => {
+    setName(e.target.value);
+  };
+
+  const handleAuthorChange = e => {
+    setAuthor(e.target.value);
   };
 
   const toggleMenuType = type => {
@@ -16,7 +63,6 @@ const AdviceMenu = props => {
   };
 
   const renderMenuType = () => {
-    console.log("clicked, clickedMenu", clicked, clickedMenu);
     if (clicked & clickedMenu) {
       if (menuType === "music") {
         return renderMusicMenu();
@@ -57,7 +103,7 @@ const AdviceMenu = props => {
             onClick={() => toggleMenuType("music")}
           />
         </div>
-        <div className="col-2" id="movie-div">
+        <div className="col-2" id="poem-div">
           <input
             type="image"
             name="submit"
@@ -65,10 +111,10 @@ const AdviceMenu = props => {
             border="0"
             alt="Submit"
             className="menu-btn"
-            onClick={() => toggleMenuType("movie")}
+            onClick={() => toggleMenuType("poem")}
           />
         </div>
-        <div className="col-2" id="poem-div">
+        <div className="col-2" id="movie-div">
           <input
             type="image"
             name="submit"
@@ -76,7 +122,7 @@ const AdviceMenu = props => {
             border="0"
             alt="Submit"
             className="menu-btn"
-            onClick={() => toggleMenuType("poem")}
+            onClick={() => toggleMenuType("movie")}
           />
         </div>
         <div className="col-2" id="text-div">
@@ -171,12 +217,14 @@ const AdviceMenu = props => {
               className="input-text-area"
               id="poem-name-area"
               placeholder="Name"
+              onChange={handleNameChange}
             />
             <input
               type="text"
               className="input-text-area"
               id="poem-author-area"
               placeholder="Author"
+              onChange={handleAuthorChange}
             />
           </div>
           <input
@@ -184,6 +232,7 @@ const AdviceMenu = props => {
             className="btn btn-warning"
             id="add-advice-btn"
             value="ADD"
+            onClick={() => fetchPoem(name, author)}
           />
         </div>
       </div>

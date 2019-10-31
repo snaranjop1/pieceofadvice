@@ -102,6 +102,7 @@ const AdvicePage = props => {
   };
 
   const returnPoem = (_info, _text) => {
+    console.log("info", _info);
     return (
       <PoemAdvice
         props={{
@@ -127,6 +128,10 @@ const AdvicePage = props => {
     });
   };
 
+  const addAdvice = advice => {
+    setAdvice(oldAdvices => [...oldAdvices, advice]);
+  };
+
   return (
     <>
       <div className="container">
@@ -137,7 +142,7 @@ const AdvicePage = props => {
         <div class="card-columns">{renderAdvices()}</div>
       </div>
       <div id="menu-container">
-        <AdviceMenu />
+        <AdviceMenu addAdvice={addAdvice} />
       </div>
     </>
   );
