@@ -11,13 +11,13 @@ const AdviceMenu = props => {
 
   let [name, setName] = useState("");
   let [author, setAuthor] = useState("");
+  let [year, setYear] = useState("");
 
   const fetchPoem = (title, author) => {
     let template_title = "http://poetrydb.org/title/";
     let template_author = "http://poetrydb.org/author/";
     let template_both = "http://poetrydb.org/author,title/";
     let template = "";
-    console.log("in");
 
     if (title === "" && author === "") {
       setErr("You must type either the title or the name of the author!");
@@ -40,8 +40,41 @@ const AdviceMenu = props => {
           info: data[0],
           text: text
         };
-        console.log(advice);
         props.addAdvice(advice);
+      });
+  };
+
+  const fetchMovie = (name, year) => {
+    let template = "http://www.omdbapi.com/?apikey=6f39c21a&";
+    let url = "";
+    if (name === "") {
+      setErr("You must type the name");
+      console.log(err);
+      return;
+    } else if (year !== "") {
+      url = `${template}t=${name}&y=${year}`;
+    } else {
+      url = `${template}t=${name}`;
+    }
+    fetch(url)
+      .then(res => res.json())
+      .catch(err => {
+        setErr("Fetch error");
+        console.log(err);
+      })
+      .then(data => {
+        let err = data.Error;
+        if (err === undefined) {
+          let advice = {
+            type: "movie",
+            info: data,
+            text: text
+          };
+          props.addAdvice(advice);
+        } else {
+          setErr("Not Found");
+          console.log(err);
+        }
       });
   };
 
@@ -56,6 +89,10 @@ const AdviceMenu = props => {
 
   const handleAuthorChange = e => {
     setAuthor(e.target.value);
+  };
+
+  const handleYearChange = e => {
+    setYear(e.target.value);
   };
 
   const toggleMenuType = type => {
@@ -188,12 +225,14 @@ const AdviceMenu = props => {
               className="input-text-area"
               id="movie-name-area"
               placeholder="Name"
+              onChange={handleNameChange}
             />
             <input
               type="text"
               className="input-text-area"
               id="movie-year-area"
               placeholder="YYYY"
+              onChange={handleYearChange}
             />
           </div>
           <input
@@ -201,6 +240,7 @@ const AdviceMenu = props => {
             className="btn btn-warning"
             id="add-advice-btn"
             value="ADD"
+            onClick={() => fetchMovie(name, year)}
           />
         </div>
       </div>

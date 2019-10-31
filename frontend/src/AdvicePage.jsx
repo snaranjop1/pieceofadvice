@@ -102,7 +102,6 @@ const AdvicePage = props => {
   };
 
   const returnPoem = (_info, _text) => {
-    console.log("info", _info);
     return (
       <PoemAdvice
         props={{
