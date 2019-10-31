@@ -4,6 +4,7 @@ import MusicAdvice from "./MusicAdvice";
 import MovieAdvice from "./MovieAdvice";
 import PoemAdvice from "./PoemAdvice";
 import AdviceMenu from "./AdviceMenu";
+import { Base64 } from "js-base64";
 import "./AdvicePage.css";
 
 const AdvicePage = props => {
@@ -53,20 +54,40 @@ const AdvicePage = props => {
     },
     {
       type: "music",
-      src: "https://open.spotify.com/embed/track/3TIfpDj9FhrM4ejeXk4Q01",
-      text: "music music music miusic"
+      src: "4RXpgGM7A4Hg7cFBoH5KyF",
+      text: ""
     }
   ];
   let question = _prop.question;
   let detail = _prop.detail;
   let [advices, setAdvice] = useState(test_info);
+  let [aToken, setAToken] = useState("");
 
   useEffect(() => {
     /*
     fetch(`data/${props.props.id}`)
       .then(data => JSON.parse(data))
       .then(res => console.log(res));
-      */
+      
+    let url_spotify_api = "https://accounts.spotify.com/api/token";
+    let clientid_64 = Base64.encode(
+      process.env.REACT_APP_SPOTIFY_CLIENT_ID +
+        ":" +
+        process.env.REACT_APP_SPOTIFY_CLIENT_SECRET
+    );
+
+    fetch(url_spotify_api, {
+      body: "grant_type=client_credentials",
+      headers: {
+        Authorization: "Basic " + clientid_64,
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      method: "POST"
+    })
+      .catch(err => console.log("err", err))
+      .then(res => res.json())
+      .then(data => console.log("got data", data));
+  */
   });
 
   const returnMusic = (_src, _text) => {
@@ -83,47 +104,51 @@ const AdvicePage = props => {
     );
   };
 
-  const returnText = _text => {
-    return <TextAdvice props={{ text: _text, _id: "AXCHJS" }} />;
+  const returnText = (_text, _date) => {
+    return <TextAdvice props={{ text: _text, _id: "AXCHJS", date: _date }} />;
   };
 
-  const returnMovie = (_info, _text) => {
+  const returnMovie = (_info, _text, _date) => {
     return (
       <MovieAdvice
         props={{
           info: _info,
           user: "gregorioospina",
           text: _text,
-          date: "12/12/2012",
+          date: _date,
           height: "80"
         }}
       />
     );
   };
 
-  const returnPoem = (_info, _text) => {
+  const returnPoem = (_info, _text, _date) => {
     return (
       <PoemAdvice
         props={{
           info: _info,
           user: "gregorioospina",
           text: _text,
-          date: "12/12/2012",
+          date: _date,
           height: "80"
         }}
       />
     );
   };
 
+  const changeAToken = token => {
+    setAToken(token);
+  };
+
   const renderAdvices = () => {
     return advices.map(advice => {
       return advice.type === "text"
-        ? returnText(advice.text)
+        ? returnText(advice.text, advice.date)
         : advice.type === "movie"
-        ? returnMovie(advice.info, advice.text)
+        ? returnMovie(advice.info, advice.text, advice.date)
         : advice.type === "poem"
-        ? returnPoem(advice.info, advice.text)
-        : returnMusic(advice.src, advice.text);
+        ? returnPoem(advice.info, advice.text, advice.date)
+        : returnMusic(advice.src, advice.text, advice.date);
     });
   };
 
@@ -141,7 +166,7 @@ const AdvicePage = props => {
         <div class="card-columns">{renderAdvices()}</div>
       </div>
       <div id="menu-container">
-        <AdviceMenu addAdvice={addAdvice} />
+        <AdviceMenu addAdvice={addAdvice} changeAToken={"123"} />
       </div>
     </>
   );

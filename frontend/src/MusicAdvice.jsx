@@ -28,6 +28,10 @@ const MusicAdvice = props => {
     }
   };
 
+  const assembleSrc = () => {
+    return `https://open.spotify.com/embed/track/${src}`;
+  };
+
   useEffect(() => {
     if (text === "") {
       setHeight("350");
@@ -40,7 +44,7 @@ const MusicAdvice = props => {
         <h6 className="card-subtitle mb-2 text-muted">{user}</h6>
         {addText()}
         <iframe
-          src={src}
+          src={assembleSrc()}
           width="265"
           height={height}
           frameBorder="0"

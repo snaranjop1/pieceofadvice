@@ -4,7 +4,7 @@ import "./Advice.css";
 const TextAdvice = props => {
   let text = props.props.text;
   let user = "gregorioospina";
-  let date = "12/12/2012";
+  let date = props.props.date;
   let [likes, setLikes] = useState(0);
   let [liked, setliked] = useState(false);
 

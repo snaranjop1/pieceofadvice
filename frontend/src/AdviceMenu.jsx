@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./AdvicePage.css";
+import moment from "moment";
 
 const AdviceMenu = props => {
   let [clicked, setClicked] = useState(false);
@@ -7,13 +8,23 @@ const AdviceMenu = props => {
   let [menuType, setMenuType] = useState("none");
   let [err, setErr] = useState("");
   let [text, setText] = useState("");
-  let song_template = "https://open.spotify.com/embed/track/";
 
   let [name, setName] = useState("");
   let [author, setAuthor] = useState("");
   let [year, setYear] = useState("");
 
+  let spotify_token = props.aToken;
+
+  const cleanSlate = () => {
+    setText("");
+    setAuthor("");
+    setName("");
+
+    console.log(text + author + name);
+  };
+
   const fetchPoem = (title, author) => {
+    let _date = moment().format("LL");
     let template_title = "http://poetrydb.org/title/";
     let template_author = "http://poetrydb.org/author/";
     let template_both = "http://poetrydb.org/author,title/";
@@ -38,13 +49,21 @@ const AdviceMenu = props => {
         let advice = {
           type: "poem",
           info: data[0],
-          text: text
+          text: text,
+          date: _date
         };
-        props.addAdvice(advice);
+        console.log(data[0]);
+        if (data[0] !== undefined) {
+          props.addAdvice(advice);
+        } else {
+          console.log("nope");
+        }
       });
+    cleanSlate();
   };
 
   const fetchMovie = (name, year) => {
+    let _date = moment().format("LL");
     let template = "http://www.omdbapi.com/?apikey=6f39c21a&";
     let url = "";
     if (name === "") {
@@ -56,6 +75,7 @@ const AdviceMenu = props => {
     } else {
       url = `${template}t=${name}`;
     }
+    console.log(url);
     fetch(url)
       .then(res => res.json())
       .catch(err => {
@@ -68,7 +88,8 @@ const AdviceMenu = props => {
           let advice = {
             type: "movie",
             info: data,
-            text: text
+            text: text,
+            date: _date
           };
           props.addAdvice(advice);
         } else {
@@ -76,6 +97,47 @@ const AdviceMenu = props => {
           console.log(err);
         }
       });
+    cleanSlate();
+  };
+
+  const fetchSong = () => {
+    let _name = name.trim();
+    let _date = moment().format("LL");
+    _name = _name.replace(" ", "%20");
+    console.log(_name);
+    let url_1 = `https://api.spotify.com/v1/search?q=${_name}&type=track&market=US&limit=1&offset=7`;
+    fetch(url_1, {
+      headers: {
+        Accept: "application/json",
+        Authorization:
+          "Bearer BQDAfYAQoeFLZFgfOeDFeqQyal5Qfrmu8g2iJOHg-9ALmB1DXj3YKEvhHEfdfdzF2w1N9-QO-zi9rolJo7A",
+        "Content-Type": "application/json"
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        let advice = {
+          src: data.tracks.items[0].id,
+          type: "music",
+          text: text,
+          date: _date
+        };
+        props.addAdvice(advice);
+      });
+    cleanSlate();
+  };
+
+  const fetchText = () => {
+    let _date = moment().format("LL");
+    console.log(_date);
+    let advice = {
+      type: "text",
+      text: text,
+      date: _date
+    };
+    console.log(advice);
+    props.addAdvice(advice);
+    cleanSlate();
   };
 
   const toggleMenu = () => {
@@ -93,6 +155,10 @@ const AdviceMenu = props => {
 
   const handleYearChange = e => {
     setYear(e.target.value);
+  };
+
+  const handleTextChange = e => {
+    setText(e.target.value);
   };
 
   const toggleMenuType = type => {
@@ -202,13 +268,20 @@ const AdviceMenu = props => {
       <div id="text-menu">
         <div>
           <div id="text-area-div">
-            <textarea id="text-area" rows="5" cols="20" maxLength="100" />
+            <textarea
+              id="text-area"
+              rows="5"
+              cols="20"
+              maxLength="100"
+              onChange={handleTextChange}
+            />
           </div>
           <input
             type="button"
             className="btn btn-warning"
             id="add-advice-btn"
             value="ADD"
+            onClick={() => fetchText()}
           />
         </div>
       </div>
@@ -219,6 +292,16 @@ const AdviceMenu = props => {
     return (
       <div id="movie-menu">
         <div>
+          <img src="./movie-menu.png" alt="movie logo" />
+          <div id="text-area-div">
+            <textarea
+              id="text-area"
+              rows="3"
+              cols="20"
+              maxLength="40"
+              onChange={handleTextChange}
+            />
+          </div>
           <div id="text-area-div">
             <input
               type="text"
@@ -289,12 +372,14 @@ const AdviceMenu = props => {
               className="input-text-area"
               id="music-name-area"
               placeholder="Name"
+              onChange={handleNameChange}
             />
             <input
               type="text"
               className="input-text-area"
               id="music-author-area"
               placeholder="Artist"
+              onChange={handleAuthorChange}
             />
           </div>
           <input
@@ -302,6 +387,7 @@ const AdviceMenu = props => {
             className="btn btn-warning"
             id="add-advice-btn"
             value="ADD"
+            onClick={() => fetchSong(name)}
           />
         </div>
       </div>
