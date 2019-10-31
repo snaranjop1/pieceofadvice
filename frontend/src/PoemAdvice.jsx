@@ -1,12 +1,11 @@
 import React, { useState } from "react";
+import "./Advice.css";
 
 const PoemAdvice = props => {
   let _prop = props.props;
-  let src = _prop.src;
   let user = _prop.user;
   let text = _prop.text;
   let date = _prop.date;
-  let [height, setHeight] = useState("350");
   let [likes, setLikes] = useState(0);
   let [liked, setliked] = useState(false);
   let info = {
@@ -50,9 +49,12 @@ const PoemAdvice = props => {
   };
 
   const printLines = () => {
-    console.log("lines[0]", info.lines[0]);
     return info.lines.map(ln => {
-      return <p className="poem-line">{ln + "\n"} </p>;
+      return (
+        <p className="poem-line" key={((ln.length + 1) / Math.random()) * 10}>
+          {ln + "\n"}{" "}
+        </p>
+      );
     });
   };
 
@@ -75,11 +77,15 @@ const PoemAdvice = props => {
             </div>
             <div className="col-6 col-date-like-btn">
               <input
-                type="button"
-                className="button btn btn-danger like-btn"
+                type="image"
+                name="submit"
+                src="./heart.png"
+                border="0"
+                alt="Submit"
+                className="like-btn"
                 onClick={addLike}
-              />{" "}
-              {likes}
+              />
+              <span className="like-tag">{likes}</span>
             </div>
           </div>
         </div>

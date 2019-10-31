@@ -13,13 +13,21 @@
 
 .like-btn {
   max-height: 20px;
-  margin-bottom: 3px;
+  padding-top: 3px;
+}
+
+.menu-btn {
+  height: 30px;
 }
 
 .col-date-like-btn {
   height: inherit;
+  margin-bottom: 10px;
 }
 
+.like-tag {
+  padding-left: 7px;
+}
 /*MOOOOOOOOOOOOOOVIE*/
 .img-movie-body {
   height: 13em;

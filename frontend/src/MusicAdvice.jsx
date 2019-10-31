@@ -55,11 +55,15 @@ const MusicAdvice = props => {
           </div>
           <div className="col-6 col-date-like-btn">
             <input
-              type="button"
-              className="button btn btn-danger like-btn"
+              type="image"
+              name="submit"
+              src="./heart.png"
+              border="0"
+              alt="Submit"
+              className="like-btn"
               onClick={addLike}
-            />{" "}
-            {likes}
+            />
+            <span className="like-tag">{likes}</span>
           </div>
         </div>
       </div>
