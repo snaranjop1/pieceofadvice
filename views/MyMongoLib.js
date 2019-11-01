@@ -26,7 +26,29 @@ const MyMongoLib = function() {
           .catch(reject);
       });
     });
+
+  MyMongoLib.listenToChanges = () => {
+    client.connect(function(err, client) {
+      if (err !== null) {
+        reject(err);
+        return;
+      }
+      console.log("Connected to server");
+
+      const db = client.db(dbName);
+      const testCol = db.collection("advice_room");
+
+      const csCursor = testCol.watch();
+
+      console.log("Listening");
+      csCursor.on("change", data=>{
+        console.log("changed!", data);
+      })
+
+
+  }  
   return MyMongoLib;
 };
+
 
 module.exports = MyMongoLib;
