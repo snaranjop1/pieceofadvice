@@ -4,7 +4,7 @@ import MusicAdvice from "./MusicAdvice";
 import MovieAdvice from "./MovieAdvice";
 import PoemAdvice from "./PoemAdvice";
 import AdviceMenu from "./AdviceMenu";
-import { Base64 } from "js-base64";
+
 import "./AdvicePage.css";
 
 const AdvicePage = props => {
@@ -61,9 +61,20 @@ const AdvicePage = props => {
   let question = _prop.question;
   let detail = _prop.detail;
   let [advices, setAdvice] = useState(test_info);
-  let [aToken, setAToken] = useState("");
+  let [spot_token, setToken] = useState("");
 
   useEffect(() => {
+    fetch("advice-rooms")
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+      });
+
+    fetch("spotify-token")
+      .then(res => res.json())
+      .then(data => {
+        setToken(data.access_token);
+      });
     /*
     fetch(`data/${props.props.id}`)
       .then(data => JSON.parse(data))
@@ -88,16 +99,16 @@ const AdvicePage = props => {
       .then(res => res.json())
       .then(data => console.log("got data", data));
   */
-  });
+  }, []);
 
-  const returnMusic = (_src, _text) => {
+  const returnMusic = (_src, _text, _date) => {
     return (
       <MusicAdvice
         props={{
           src: _src,
           user: "anonymous",
           text: _text,
-          date: "12/12/2012",
+          date: _date,
           height: "80"
         }}
       />
@@ -136,10 +147,6 @@ const AdvicePage = props => {
     );
   };
 
-  const changeAToken = token => {
-    setAToken(token);
-  };
-
   const renderAdvices = () => {
     return advices.map(advice => {
       return advice.type === "text"
@@ -166,7 +173,7 @@ const AdvicePage = props => {
         <div class="card-columns">{renderAdvices()}</div>
       </div>
       <div id="menu-container">
-        <AdviceMenu addAdvice={addAdvice} changeAToken={"123"} />
+        <AdviceMenu addAdvice={addAdvice} token={spot_token} />
       </div>
     </>
   );

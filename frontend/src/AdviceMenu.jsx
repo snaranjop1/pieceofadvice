@@ -13,14 +13,12 @@ const AdviceMenu = props => {
   let [author, setAuthor] = useState("");
   let [year, setYear] = useState("");
 
-  let spotify_token = props.aToken;
+  let spotify_token = props.token;
 
   const cleanSlate = () => {
     setText("");
     setAuthor("");
     setName("");
-
-    console.log(text + author + name);
   };
 
   const fetchPoem = (title, author) => {
@@ -104,13 +102,11 @@ const AdviceMenu = props => {
     let _name = name.trim();
     let _date = moment().format("LL");
     _name = _name.replace(" ", "%20");
-    console.log(_name);
     let url_1 = `https://api.spotify.com/v1/search?q=${_name}&type=track&market=US&limit=1&offset=7`;
     fetch(url_1, {
       headers: {
         Accept: "application/json",
-        Authorization:
-          "Bearer BQDAfYAQoeFLZFgfOeDFeqQyal5Qfrmu8g2iJOHg-9ALmB1DXj3YKEvhHEfdfdzF2w1N9-QO-zi9rolJo7A",
+        Authorization: `Bearer ${spotify_token}`,
         "Content-Type": "application/json"
       }
     })
