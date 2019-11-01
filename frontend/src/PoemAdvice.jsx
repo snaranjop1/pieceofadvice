@@ -10,6 +10,9 @@ const PoemAdvice = props => {
   let [liked, setliked] = useState(false);
   let info = _prop.info;
 
+  let template = Math.floor(Math.random() * 3) + 1;
+  let cardClass = `card w-90 card-template-${template}`;
+
   const addLike = () => {
     if (liked) {
       setliked(false);
@@ -39,7 +42,7 @@ const PoemAdvice = props => {
   };
 
   return (
-    <div className="card text-white bg-info mb-3" style={{ width: "18rem" }}>
+    <div className={cardClass} style={{ width: "18rem" }}>
       <div className="card-body poem-advice-card-body">
         <h6 className="card-subtitle mb-2 text-muted">{user}</h6>
         <div className="row poem-advice-body">

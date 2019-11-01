@@ -10,6 +10,9 @@ const MusicAdvice = props => {
   let [likes, setLikes] = useState(0);
   let [liked, setliked] = useState(false);
 
+  let template = Math.floor(Math.random() * 3) + 1;
+  let cardClass = `card bg mb-3 card-template-${template}`;
+
   const addLike = () => {
     if (liked) {
       setliked(false);
@@ -39,7 +42,7 @@ const MusicAdvice = props => {
   }, [text]);
 
   return (
-    <div className="card text-white bg-info mb-3" style={{ width: "18rem" }}>
+    <div className={cardClass} style={{ width: "18rem" }}>
       <div className="card-body text-advice-card-body">
         <h6 className="card-subtitle mb-2 text-muted">{user}</h6>
         {addText()}

@@ -125,7 +125,6 @@ const AdviceMenu = props => {
 
   const fetchText = () => {
     let _date = moment().format("LL");
-    console.log(_date);
     let advice = {
       type: "text",
       text: text,
@@ -263,6 +262,7 @@ const AdviceMenu = props => {
     return (
       <div id="text-menu">
         <div>
+          <img src="./text-menu.png" class="top-img" alt="text logo" />
           <div id="text-area-div">
             <textarea
               id="text-area"
@@ -270,13 +270,14 @@ const AdviceMenu = props => {
               cols="20"
               maxLength="100"
               onChange={handleTextChange}
+              value={text}
             />
           </div>
           <input
             type="button"
             className="btn btn-warning"
             id="add-advice-btn"
-            value="ADD"
+            value="+"
             onClick={() => fetchText()}
           />
         </div>
@@ -288,14 +289,15 @@ const AdviceMenu = props => {
     return (
       <div id="movie-menu">
         <div>
-          <img src="./movie-menu.png" alt="movie logo" />
+          <img src="./movie-menu.png" class="top-img" alt="movie logo" />
           <div id="text-area-div">
             <textarea
-              id="text-area"
+              id="text-area-movie"
               rows="3"
               cols="20"
               maxLength="40"
               onChange={handleTextChange}
+              value={text}
             />
           </div>
           <div id="text-area-div">
@@ -305,12 +307,14 @@ const AdviceMenu = props => {
               id="movie-name-area"
               placeholder="Name"
               onChange={handleNameChange}
+              value={name}
             />
             <input
               type="text"
               className="input-text-area"
               id="movie-year-area"
               placeholder="YYYY"
+              value={author}
               onChange={handleYearChange}
             />
           </div>
@@ -318,7 +322,7 @@ const AdviceMenu = props => {
             type="button"
             className="btn btn-warning"
             id="add-advice-btn"
-            value="ADD"
+            value="+"
             onClick={() => fetchMovie(name, year)}
           />
         </div>
@@ -330,6 +334,17 @@ const AdviceMenu = props => {
     return (
       <div id="poem-menu">
         <div>
+          <img src="./poem-menu.png" class="top-img" alt="poem logo" />
+          <div id="text-area-div">
+            <textarea
+              id="text-area-poem"
+              rows="3"
+              cols="20"
+              maxLength="40"
+              onChange={handleTextChange}
+              value={text}
+            />
+          </div>
           <div id="text-area-div">
             <input
               type="text"
@@ -337,12 +352,14 @@ const AdviceMenu = props => {
               id="poem-name-area"
               placeholder="Name"
               onChange={handleNameChange}
+              value={name}
             />
             <input
               type="text"
               className="input-text-area"
               id="poem-author-area"
               placeholder="Author"
+              value={author}
               onChange={handleAuthorChange}
             />
           </div>
@@ -350,7 +367,7 @@ const AdviceMenu = props => {
             type="button"
             className="btn btn-warning"
             id="add-advice-btn"
-            value="ADD"
+            value="+"
             onClick={() => fetchPoem(name, author)}
           />
         </div>
@@ -362,6 +379,17 @@ const AdviceMenu = props => {
     return (
       <div id="music-menu">
         <div>
+          <img src="./music-menu.png" class="top-img" alt="music logo" />
+          <div id="text-area-div">
+            <textarea
+              id="text-area-music"
+              rows="3"
+              cols="20"
+              maxLength="40"
+              onChange={handleTextChange}
+              value={text}
+            />
+          </div>
           <div id="text-area-div">
             <input
               type="text"
@@ -369,20 +397,14 @@ const AdviceMenu = props => {
               id="music-name-area"
               placeholder="Name"
               onChange={handleNameChange}
-            />
-            <input
-              type="text"
-              className="input-text-area"
-              id="music-author-area"
-              placeholder="Artist"
-              onChange={handleAuthorChange}
+              value={name}
             />
           </div>
           <input
-            type="button"
+            type="submit"
             className="btn btn-warning"
             id="add-advice-btn"
-            value="ADD"
+            value="+"
             onClick={() => fetchSong(name)}
           />
         </div>

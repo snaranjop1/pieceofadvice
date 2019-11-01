@@ -11,6 +11,9 @@ const MovieAdvice = props => {
   let [likes, setLikes] = useState(0);
   let [liked, setliked] = useState(false);
 
+  let template = Math.floor(Math.random() * 3) + 1;
+  let cardClass = `card w-100 card-template-${template}`;
+
   const addLike = () => {
     if (liked) {
       setliked(false);
@@ -30,7 +33,7 @@ const MovieAdvice = props => {
   };
 
   return (
-    <div className="card text-white bg-info mb-3" style={{ width: "20rem" }}>
+    <div className={cardClass} style={{ width: "18rem" }}>
       <div className="card-body movie-advice-card-body">
         <h6 className="card-subtitle mb-2 text-muted">{user}</h6>
         <div className="row movie-advice-body">
@@ -39,7 +42,7 @@ const MovieAdvice = props => {
             <div className="col-6">
               <img src={info.Poster} className="img-movie-body" />
             </div>
-            <div className="col-6">
+            <div className="col-6 movie-plot-col">
               <h4 className="movie-title"> {info.Title} </h4>
               <p className="movie-year">
                 <small>{info.Year}</small>

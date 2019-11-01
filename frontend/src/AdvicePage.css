@@ -1,3 +1,32 @@
+:root {
+  --color1: #ffe2d1;
+  --color1-o: #b69a8a;
+
+  --color2: #e1f0c4;
+  --color2-o: #9aac77;
+
+  --color3: #6bab90;
+  --color3-o: #4a8069;
+
+  --color4: #55917f;
+  --color4-o: #3e685b;
+
+  --color5: #5e4c5a;
+  --color5-o: #3d323b;
+}
+
+h1 {
+  font-family: "Montserrat:900", sans-serif;
+  font-weight: 800;
+}
+
+h3 {
+  font-family: "Hind Guntur", sans-serif;
+}
+p {
+  font-family: "Hind Siliguri", sans-serif;
+}
+
 .question-banner {
   padding-bottom: 50px;
 }
@@ -23,7 +52,7 @@
 
 #text-menu {
   max-width: 200px;
-  background-color: aqua;
+  background-color: var(--color2);
   padding-bottom: 7px;
   border-radius: 10px;
 }
@@ -39,8 +68,56 @@
   border-bottom-style: solid;
   border-width: 1px;
   resize: none;
-  border-color: rgb(0, 97, 97);
-  background-color: rgb(0, 241, 241);
+  border-color: var(--color2-o);
+  background-color: var(--color2);
+  text-align: center;
+}
+
+#text-area-poem {
+  padding: 10px;
+  height: 80%;
+  width: 100%;
+
+  font-size: 14px;
+
+  border-style: none;
+  border-bottom-style: solid;
+  border-width: 1px;
+  resize: none;
+  border-color: var(--color1-o);
+  background-color: var(--color1);
+  text-align: center;
+}
+
+#text-area-music {
+  padding: 10px;
+  height: 80%;
+  width: 100%;
+
+  font-size: 14px;
+
+  border-style: none;
+  border-bottom-style: solid;
+  border-width: 1px;
+  resize: none;
+  border-color: var(--color3-o);
+  background-color: var(--color3);
+  text-align: center;
+}
+
+#text-area-movie {
+  padding: 10px;
+  height: 80%;
+  width: 100%;
+
+  font-size: 14px;
+
+  border-style: none;
+  border-bottom-style: solid;
+  border-width: 1px;
+  resize: none;
+  border-color: var(--color5-o);
+  background-color: var(--color5);
   text-align: center;
 }
 
@@ -50,29 +127,29 @@
   border-style: none;
   border-bottom-style: solid;
   border-width: 1px;
-  border-color: rgb(209, 101, 0);
+  border-color: rgb(0, 0, 0);
   background-color: rgba(209, 101, 0, 0);
   text-align: center;
 }
 
 #poem-name-area.input-text-area {
-  border-color: rgb(0, 148, 99);
-  background-color: rgba(209, 101, 0, 0);
+  border-color: var(--color1-o);
+  background-color: var(--color1);
 }
 
 #poem-author-area.input-text-area {
-  border-color: rgb(0, 148, 99);
-  background-color: rgba(209, 101, 0, 0);
+  border-color: var(--color1-o);
+  background-color: var(--color1);
 }
 
 #music-name-area.input-text-area {
-  border-color: rgb(116, 23, 62);
-  background-color: rgba(209, 101, 0, 0);
+  border-color: var(--color3-o);
+  background-color: var(--color3);
 }
 
 #music-author-area.input-text-area {
-  border-color: rgb(116, 23, 62);
-  background-color: rgba(209, 101, 0, 0);
+  border-color: var(--color3-o);
+  background-color: var(--color3);
 }
 
 #movie-year-area {
@@ -83,21 +160,21 @@
 
 #movie-menu {
   max-width: 200px;
-  background-color: rgb(255, 123, 0);
+  background-color: var(--color5);
   padding-bottom: 7px;
   border-radius: 10px;
 }
 
 #poem-menu {
   max-width: 200px;
-  background-color: rgb(0, 255, 115);
+  background-color: var(--color1);
   padding-bottom: 7px;
   border-radius: 10px;
 }
 
 #music-menu {
   max-width: 200px;
-  background-color: rgb(255, 86, 156);
+  background-color: var(--color3);
   padding-bottom: 7px;
   border-radius: 10px;
 }
@@ -115,4 +192,10 @@
   display: block;
   margin: 0 auto;
   padding-bottom: 5px;
+}
+
+.top-img {
+  padding-top: 5px;
+  margin: 0 auto;
+  display: block;
 }

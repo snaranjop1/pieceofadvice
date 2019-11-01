@@ -1,8 +1,44 @@
+:root {
+  --color1: #ffe2d1;
+  --color1-o: #b69a8a;
+
+  --color2: #e1f0c4;
+  --color2-o: #9aac77;
+
+  --color3: #6bab90;
+  --color3-o: #4a8069;
+
+  --color4: #55917f;
+  --color4-o: #3e685b;
+
+  --color5: #5e4c5a;
+  --color5-o: #3d323b;
+}
+
 .text-advice-card-body {
   padding: 0;
   padding-left: 10px;
   padding-right: 10px;
   padding-top: 10px;
+}
+
+.card-text {
+  color: rgb(19, 19, 19);
+}
+
+.card-template-1 {
+  background-color: var(--color1);
+  color: rgb(19, 19, 19);
+}
+
+.card-template-2 {
+  background-color: var(--color2);
+  color: rgb(19, 19, 19);
+}
+
+.card-template-3 {
+  background-color: var(--color3);
+  color: rgb(19, 19, 19);
 }
 
 .row-date-likebtn {
@@ -38,11 +74,19 @@
   padding: 0;
 }
 
+.movie-plot-col {
+  padding-left: 0;
+}
+
 .movie-advice-body {
   padding: 0;
-  padding-left: 10px;
+  padding-left: 13px;
   padding-right: 10px;
-  width: 325px;
+  width: inherit;
+}
+
+.moviecard {
+  width: 350px;
 }
 
 .movie-advice-card-body {
