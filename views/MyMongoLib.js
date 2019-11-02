@@ -30,8 +30,7 @@ const MyMongoLib = function() {
   MyMongoLib.listenToChanges = () => {
     client.connect(function(err, client) {
       if (err !== null) {
-        reject(err);
-        return;
+        throw err;
       }
       console.log("Connected to server");
 
@@ -39,16 +38,12 @@ const MyMongoLib = function() {
       const testCol = db.collection("advice_room");
 
       const csCursor = testCol.watch();
-
-      console.log("Listening");
-      csCursor.on("change", data=>{
+      csCursor.on("change", data => {
         console.log("changed!", data);
-      })
-
-
-  }  
+      });
+    });
+  };
   return MyMongoLib;
 };
-
 
 module.exports = MyMongoLib;

@@ -8,7 +8,7 @@ import AdviceMenu from "./AdviceMenu";
 import "./AdvicePage.css";
 
 const AdvicePage = props => {
-  let _prop = props.props;
+  let _prop = props.props[0];
   let test_info = [
     {
       type: "poem",
@@ -60,46 +60,20 @@ const AdvicePage = props => {
   ];
   let question = _prop.question;
   let detail = _prop.detail;
-  let [advices, setAdvice] = useState(test_info);
+  let [advices, setAdvice] = useState(_prop.advices);
   let [spot_token, setToken] = useState("");
 
   useEffect(() => {
-    fetch("advice-rooms")
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
-      });
-
     fetch("spotify-token")
       .then(res => res.json())
       .then(data => {
         setToken(data.access_token);
       });
-    /*
-    fetch(`data/${props.props.id}`)
-      .then(data => JSON.parse(data))
-      .then(res => console.log(res));
-      
-    let url_spotify_api = "https://accounts.spotify.com/api/token";
-    let clientid_64 = Base64.encode(
-      process.env.REACT_APP_SPOTIFY_CLIENT_ID +
-        ":" +
-        process.env.REACT_APP_SPOTIFY_CLIENT_SECRET
-    );
-
-    fetch(url_spotify_api, {
-      body: "grant_type=client_credentials",
-      headers: {
-        Authorization: "Basic " + clientid_64,
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      method: "POST"
-    })
-      .catch(err => console.log("err", err))
-      .then(res => res.json())
-      .then(data => console.log("got data", data));
-  */
   }, []);
+
+  useEffect(() => {
+    logAdv();
+  }, [_prop]);
 
   const returnMusic = (_src, _text, _date) => {
     return (
@@ -148,6 +122,10 @@ const AdvicePage = props => {
   };
 
   const renderAdvices = () => {
+    if (advices === undefined) {
+      return;
+    }
+    console.log("problema", advices);
     return advices.map(advice => {
       return advice.type === "text"
         ? returnText(advice.text, advice.date)
@@ -160,7 +138,20 @@ const AdvicePage = props => {
   };
 
   const addAdvice = advice => {
-    setAdvice(oldAdvices => [...oldAdvices, advice]);
+    console.log("entro", _prop.advices);
+    if (_prop.advices.status !== undefined) {
+      let advcs = [];
+      advcs.push(advice);
+      setAdvice(advcs);
+    } else {
+      setAdvice(advices => [...advices, advice]);
+    }
+  };
+
+  const logAdv = () => {
+    if (_prop.advices !== undefined) {
+      setAdvice(_prop.advices);
+    }
   };
 
   return (
