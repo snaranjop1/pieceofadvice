@@ -1,0 +1,25 @@
+.post-preview > a {
+  color: #212529;
+}
+
+.post-preview > a > .post-title {
+  font-size: 35px;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 800;
+}
+
+.post-preview > a > .post-subtitle {
+  font-size: 1.75rem;
+  line-height: 1.2;
+  font-weight: 300;
+  margin: 0 0 10px;
+}
+
+.post-preview > .post-meta {
+  font-size: 18px;
+  font-style: italic;
+  margin-top: 0;
+  color: #868e96;
+}

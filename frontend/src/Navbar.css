@@ -1,3 +1,10 @@
-.navbar {
-  background-color: rgb(189, 189, 189);
+.navbar-brand {
+  color: white;
+  font-weight: 700;
+}
+
+#logo {
+  width: 55px;
+  height: 55px;
+  margin-right: 12px;
 }

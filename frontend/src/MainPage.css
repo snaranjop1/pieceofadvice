@@ -1,0 +1,36 @@
+header.masthead {
+  margin-bottom: 50px;
+  background: no-repeat center center;
+  background-image: url("/background.jpg");
+  position: relative;
+  background-size: cover;
+  text-align: center;
+}
+
+header.masthead .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #8d7d1f;
+  opacity: 0.26;
+}
+
+header.masthead .title {
+  padding: 90px 0 150px;
+  color: white;
+}
+
+header.masthead .title h1 {
+  font-size: 65px;
+}
+
+header.masthead .subtitle {
+  font-size: 20px;
+  font-family: "Hind Guntur", sans-serif;
+}
+
+#footer {
+  text-align: center;
+}

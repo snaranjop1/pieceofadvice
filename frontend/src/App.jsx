@@ -1,19 +1,29 @@
 import React from "react";
 import AdvicePage from "./AdvicePage";
-import Navbar from "./Navbar";
+import MainPage from "./MainPage";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
   return (
-    <>
-      <Navbar />
-      <AdvicePage
-        props={{
-          id: "AF78D9",
-          question: "How should I continue?",
-          detail: "like seriously"
-        }}
-      />
-    </>
+    <Router>
+      <div id="content-container">
+        <Switch>
+          <Route path="/" exact component={MainPage} />
+          <Route
+            path="/advice"
+            component={() => (
+              <AdvicePage
+                props={{
+                  id: "AF78D9",
+                  question: "How should I continue?",
+                  detail: "like seriously"
+                }}
+              />
+            )}
+          />
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
