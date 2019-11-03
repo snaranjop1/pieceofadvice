@@ -36,8 +36,8 @@ p {
 }
 
 #detail {
-  font-size: 25pt;
-  color: rgb(153, 153, 153);
+  font-size: 20pt;
+  font-weight: 600;
 }
 
 #menu-container {
@@ -201,6 +201,8 @@ p {
 }
 
 .questionbanner {
+  background: no-repeat center center;
+  background-size: cover;
   background-image: url("/background.jpg");
   padding-bottom: 50px;
   margin-bottom: 25px;

@@ -64,7 +64,7 @@ const MainPage = props => {
               <div className="title">
                 <h1>Welcome to Piece of Advice</h1>
                 <span className="subtitle">
-                  Where you can get some advice for your problems
+                  <em>Where you can get some advice for your problems</em>
                 </span>
               </div>
             </div>
