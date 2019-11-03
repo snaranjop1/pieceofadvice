@@ -8,7 +8,7 @@ const MainPage = props => {
   let [n, setN] = useState(10);
   let [question, setQuestion] = useState("");
   let [details, setDetails] = useState("");
-  let problems = props.props.reverse().slice(0, n);
+  let problems = props.props.slice(0, n).reverse();
 
   const renderPost = () => {
     let _date = moment().format("LL");
