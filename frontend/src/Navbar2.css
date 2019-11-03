@@ -1,0 +1,25 @@
+.navbar-brand {
+  color: white;
+  font-weight: 700;
+}
+
+.navbar-brand:hover {
+  color: white;
+}
+
+#logo {
+  width: 55px;
+  height: 55px;
+  margin-right: 12px;
+}
+
+#gobackbtn {
+  background: transparent;
+  border-color: white;
+  font-weight: 700;
+}
+
+#gobackbtn:hover {
+  background: white;
+  color: black;
+}

@@ -5,11 +5,11 @@ import "./MainPage.css";
 import moment from "moment";
 
 const MainPage = props => {
-  let [n, setN] = useState(1);
+  let [n, setN] = useState(10);
   let [question, setQuestion] = useState("");
   let [details, setDetails] = useState("");
-  let problems = props.props.slice(0, n);
   let current_id = "";
+  let problems = props.props.slice(0, n).reverse();
 
   const renderPost = () => {
     let _date = moment().format("LL");
@@ -20,13 +20,10 @@ const MainPage = props => {
           subtitle={problem.detail}
           date={_date}
           id={problem._id}
-          setAdvices={setAdvices}
         />
       );
     });
   };
-
-  const setAdvices = () => {};
 
   useEffect(() => {}, []);
 
