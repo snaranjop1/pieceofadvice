@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import ProblemPost from "./ProblemPost";
 import Navbar from "./Navbar";
 import "./MainPage.css";
 
 const MainPage = props => {
-  let problems = props.props;
+  let [n, setN] = useState(1);
+  let [question, setQuestion] = useState("");
+  let [details, setDetails] = useState("");
+  let problems = props.props.slice(0, n);
+
   const monthNames = [
     "January",
     "February",
@@ -39,6 +43,33 @@ const MainPage = props => {
       );
     });
   };
+
+  const moreProblems = () => {
+    setN(n + 10);
+  };
+
+  const handleChangeQuestion = evt => {
+    setQuestion(evt.target.value);
+  };
+
+  const handleChangeDetails = evt => {
+    setDetails(evt.target.value);
+  };
+
+  const postProblem = problem => {
+    let bod = {
+      question: problem.question,
+      detail: problem.detail,
+      date: new Date(),
+      advices: []
+    };
+    fetch("post-advice-rooms", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(bod)
+    }).then(res => {});
+  };
+
   return (
     <div>
       <header className="masthead">
@@ -63,9 +94,13 @@ const MainPage = props => {
           <div className="col-lg-8 col-md-10 mx-auto">
             {renderPost()}
             <div className="clearfix">
-              <a className="btn btn-primary float-right" href="/">
+              <button
+                className="btn btn-primary float-right"
+                onClick={moreProblems}
+                id="olderpostbtn"
+              >
                 Older Posts &rarr;
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -101,7 +136,9 @@ const MainPage = props => {
                     type="text"
                     class="form-control"
                     id="problem"
-                    placeholder="My dog died and i don't knwo what to do"
+                    placeholder="My dog died and i don't know what to do"
+                    value={question}
+                    onChange={handleChangeQuestion}
                   />
                 </div>
                 <div class="form-group">
@@ -110,12 +147,21 @@ const MainPage = props => {
                     class="form-control"
                     id="problemdetails"
                     rows="2"
+                    value={details}
+                    onChange={handleChangeDetails}
                   ></textarea>
                 </div>
               </form>
             </div>
             <div class="modal-footer d-flex justify-content-center">
-              <button type="button" class="btn btn-primary">
+              <button
+                type="button"
+                class="btn btn-primary"
+                id="publishbtn"
+                onClick={postProblem}
+                data-dismiss="modal"
+                aria-label="Close"
+              >
                 Publish
               </button>
             </div>

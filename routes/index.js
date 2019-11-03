@@ -43,6 +43,10 @@ router.post("/post-advice", (req, res) => {
   res.send("Estoy en router");
 });
 
+router.post("/advice-rooms-rooms", (req, res) => {
+  myMongoLib.postProblem(req.body);
+});
+
 router.get("/advice-rooms", (req, res) => {
   myMongoLib
     .getAdviceRooms()

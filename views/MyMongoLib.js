@@ -72,6 +72,20 @@ const MyMongoLib = function() {
     });
   };
 
+  MyMongoLib.postProblem = body => {
+    client.connect(function(err, client) {
+      if (err !== null) {
+        throw err;
+      }
+      console.log("Connected to server");
+
+      const db = client.db(dbName);
+      const testCol = db.collection("advice_room");
+
+      testCol.insertOne(body);
+    });
+  };
+
   MyMongoLib.listenToChanges = cbk => {
     client.connect(function(err, client) {
       if (err !== null) {

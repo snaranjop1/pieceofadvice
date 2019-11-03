@@ -34,3 +34,16 @@ header.masthead .subtitle {
 #footer {
   text-align: center;
 }
+
+#olderpostbtn,
+#publishbtn {
+  background: #d85004;
+  border-color: #d85004;
+  font-weight: 700;
+}
+
+#olderpostbtn:hover,
+#publishbtn:hover {
+  background: #ffa608;
+  border-color: #ffa608;
+}
