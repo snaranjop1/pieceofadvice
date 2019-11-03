@@ -5,7 +5,7 @@ const TextAdvice = props => {
   let text = props.props.text;
   let user = "gregorioospina";
   let date = props.props.date;
-  let [likes, setLikes] = useState(0);
+  let [likes, setLikes] = useState(props.props.likes);
   let [liked, setliked] = useState(false);
 
   let template = Math.floor(Math.random() * 3) + 1;
@@ -15,9 +15,11 @@ const TextAdvice = props => {
     if (liked) {
       setliked(false);
       setLikes(likes - 1);
+      props.updateLikes(props.id, likes - 1);
     } else {
       setliked(true);
       setLikes(likes + 1);
+      props.updateLikes(props.id, likes + 1);
     }
   };
 

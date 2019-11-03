@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./AdvicePage.css";
 import moment from "moment";
+import uuid from "uuid/v4";
 
 const AdviceMenu = props => {
   let [clicked, setClicked] = useState(false);
@@ -22,6 +23,7 @@ const AdviceMenu = props => {
   };
 
   const fetchPoem = (title, author) => {
+    let _id = uuid();
     let _date = moment().format("LL");
     let template_title = "http://poetrydb.org/title/";
     let template_author = "http://poetrydb.org/author/";
@@ -45,13 +47,15 @@ const AdviceMenu = props => {
       })
       .then(data => {
         let advice = {
+          id: _id,
           type: "poem",
           info: data[0],
           text: text,
-          date: _date
+          date: _date,
+          likes: 0
         };
-        console.log(data[0]);
         if (data[0] !== undefined) {
+          props.postAdvice(advice);
           props.addAdvice(advice);
         } else {
           console.log("nope");
@@ -61,6 +65,7 @@ const AdviceMenu = props => {
   };
 
   const fetchMovie = (name, year) => {
+    let _id = uuid();
     let _date = moment().format("LL");
     let template = "http://www.omdbapi.com/?apikey=6f39c21a&";
     let url = "";
@@ -73,7 +78,6 @@ const AdviceMenu = props => {
     } else {
       url = `${template}t=${name}`;
     }
-    console.log(url);
     fetch(url)
       .then(res => res.json())
       .catch(err => {
@@ -84,11 +88,14 @@ const AdviceMenu = props => {
         let err = data.Error;
         if (err === undefined) {
           let advice = {
+            id: _id,
             type: "movie",
             info: data,
             text: text,
-            date: _date
+            date: _date,
+            likes: 0
           };
+          props.postAdvice(advice);
           props.addAdvice(advice);
         } else {
           setErr("Not Found");
@@ -99,6 +106,7 @@ const AdviceMenu = props => {
   };
 
   const fetchSong = () => {
+    let _id = uuid();
     let _name = name.trim();
     let _date = moment().format("LL");
     _name = _name.replace(" ", "%20");
@@ -113,24 +121,31 @@ const AdviceMenu = props => {
       .then(res => res.json())
       .then(data => {
         let advice = {
+          id: _id,
           src: data.tracks.items[0].id,
           type: "music",
           text: text,
-          date: _date
+          date: _date,
+          likes: 0
         };
+        props.postAdvice(advice);
         props.addAdvice(advice);
       });
     cleanSlate();
   };
 
   const fetchText = () => {
+    let _id = uuid();
+    console.log("ID", _id);
     let _date = moment().format("LL");
     let advice = {
+      id: _id,
       type: "text",
       text: text,
-      date: _date
+      date: _date,
+      likes: 0
     };
-    console.log(advice);
+    props.postAdvice(advice);
     props.addAdvice(advice);
     cleanSlate();
   };

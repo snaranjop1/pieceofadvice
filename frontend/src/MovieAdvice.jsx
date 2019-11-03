@@ -8,7 +8,7 @@ const MovieAdvice = props => {
   let date = _prop.date;
   let info = _prop.info;
   let [height, setHeight] = useState(_prop.height);
-  let [likes, setLikes] = useState(0);
+  let [likes, setLikes] = useState(_prop.likes);
   let [liked, setliked] = useState(false);
 
   let template = Math.floor(Math.random() * 3) + 1;
@@ -18,9 +18,11 @@ const MovieAdvice = props => {
     if (liked) {
       setliked(false);
       setLikes(likes - 1);
+      props.updateLikes(props.id, likes - 1);
     } else {
       setliked(true);
       setLikes(likes + 1);
+      props.updateLikes(props.id, likes + 1);
     }
   };
 
