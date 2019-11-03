@@ -19,7 +19,6 @@ const MyMongoLib = function() {
 
         const db = client.db(dbName);
         const testCol = db.collection("advice_room");
-
         return testCol
           .find({})
           .toArray()

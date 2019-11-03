@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ProblemPost from "./ProblemPost";
 import Navbar from "./Navbar";
 import "./MainPage.css";
+import moment from "moment";
 
 const MainPage = props => {
   let [n, setN] = useState(1);
@@ -9,40 +10,20 @@ const MainPage = props => {
   let [details, setDetails] = useState("");
   let problems = props.props.slice(0, n);
 
-  const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December"
-  ];
-
   const renderPost = () => {
+    let _date = moment().format("LL");
     return problems.map(problem => {
       return (
         <ProblemPost
           title={problem.question}
           subtitle={problem.detail}
-          date={
-            problem.date === undefined
-              ? problem.date
-              : new Date(problem.date).getDate() +
-                " " +
-                monthNames[new Date(problem.date).getMonth()] +
-                ", " +
-                new Date(problem.date).getFullYear()
-          }
+          date={_date}
         />
       );
     });
   };
+
+  useEffect(() => {}, []);
 
   const moreProblems = () => {
     setN(n + 10);
@@ -56,13 +37,15 @@ const MainPage = props => {
     setDetails(evt.target.value);
   };
 
-  const postProblem = problem => {
+  const postProblem = () => {
+    let _date = moment().format("LL");
     let bod = {
-      question: problem.question,
-      detail: problem.detail,
-      date: new Date(),
+      question: question,
+      detail: details,
+      date: _date,
       advices: []
     };
+    console.log("bod problem", bod);
     fetch("post-advice-rooms", {
       method: "post",
       headers: { "Content-Type": "application/json" },

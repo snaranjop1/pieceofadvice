@@ -43,7 +43,8 @@ router.post("/post-advice", (req, res) => {
   res.send("Estoy en router");
 });
 
-router.post("/advice-rooms-rooms", (req, res) => {
+router.post("/post-advice-rooms", (req, res) => {
+  console.log("reqbody", req.body);
   myMongoLib.postProblem(req.body);
 });
 
