@@ -14,6 +14,7 @@ function App() {
     }
   ];
   let [advices, setAdvices] = useState(default_info);
+  let [advice_id, setId] = useState();
 
   useEffect(() => {
     const ws = new WebSocket("ws://localhost:3001");
@@ -31,14 +32,9 @@ function App() {
       });
   }, []);
 
-  const filterAdvices = () => {
-    let id = window.location.pathname.split("/")[2];
-    let x = advices.filter(adv => {
-      if (adv._id === id) {
-        return adv;
-      }
-    })[0];
-    return x;
+  const setAdviceId = _id => {
+    setId(_id);
+    console.log(advice_id);
   };
 
   return (
@@ -48,12 +44,16 @@ function App() {
           <Route
             path="/"
             exact
-            component={() => <MainPage props={advices} />}
+            component={() => (
+              <MainPage setAdviceId={setAdviceId} props={advices} />
+            )}
           />
           <Route
-            path="/advice/:id"
+            path="/advice"
             exact
-            component={() => <AdvicePage props={filterAdvices()} />}
+            component={() => (
+              <AdvicePage props={advices} advice_id={advice_id} />
+            )}
           />
         </Switch>
       </div>

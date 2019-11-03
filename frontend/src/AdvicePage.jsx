@@ -9,7 +9,9 @@ import AdviceMenu from "./AdviceMenu";
 import "./AdvicePage.css";
 
 const AdvicePage = props => {
-  let _prop = props.props;
+  let [_prop, setProp] = useState({});
+  console.log("properinos", props.props);
+  let advice_id = props.advice_id;
   let question = _prop.question;
   let detail = _prop.detail;
   let [advices, setAdvice] = useState(_prop.advices);
@@ -21,25 +23,36 @@ const AdvicePage = props => {
       .then(data => {
         setToken(data.access_token);
       });
+    setProp(filterAdvices());
   }, []);
 
   useEffect(() => {
     logAdv();
   }, [_prop]);
 
+  const filterAdvices = () => {
+    let x = props.props.filter(adv => {
+      if (adv._id === advice_id) {
+        return adv;
+      }
+    })[0];
+    return x;
+  };
+
   const postAdvice = _advice => {
     let bod = {
       advice: _advice,
       id: _prop._id
     };
+
     fetch("post-advice", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(bod)
-    }).then(res => {});
+    }).then(res => console.log(res));
   };
 
-  const addLikes = (adv_id, _likes) => {
+  const updateLikes = (adv_id, _likes) => {
     let bod = {
       advice_id: adv_id,
       likes: _likes,
@@ -56,7 +69,7 @@ const AdvicePage = props => {
   const returnMusic = (_src, _text, _date, _id, _likes) => {
     return (
       <MusicAdvice
-        updateLikes={addLikes}
+        updateLikes={updateLikes}
         props={{
           src: _src,
           user: "anonymous",
@@ -73,10 +86,9 @@ const AdvicePage = props => {
   const returnText = (_text, _date, _id, _likes) => {
     return (
       <TextAdvice
-        updateLikes={addLikes}
+        updateLikes={updateLikes}
         props={{
           text: _text,
-          _id: "AXCHJS",
           date: _date,
           id: _id,
           likes: _likes
@@ -88,7 +100,7 @@ const AdvicePage = props => {
   const returnMovie = (_info, _text, _date, _id, _likes) => {
     return (
       <MovieAdvice
-        updateLikes={addLikes}
+        updateLikes={updateLikes}
         props={{
           info: _info,
           user: "gregorioospina",
@@ -105,7 +117,7 @@ const AdvicePage = props => {
   const returnPoem = (_info, _text, _date, _id, _likes) => {
     return (
       <PoemAdvice
-        updateLikes={addLikes}
+        updateLikes={updateLikes}
         props={{
           info: _info,
           user: "gregorioospina",

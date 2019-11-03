@@ -7,6 +7,7 @@ const TextAdvice = props => {
   let date = props.props.date;
   let [likes, setLikes] = useState(props.props.likes);
   let [liked, setliked] = useState(false);
+  console.log("text advice props", props);
 
   let template = Math.floor(Math.random() * 3) + 1;
   let cardClass = `card bg mb-3 card-template-${template}`;
@@ -15,11 +16,11 @@ const TextAdvice = props => {
     if (liked) {
       setliked(false);
       setLikes(likes - 1);
-      props.updateLikes(props.id, likes - 1);
+      props.updateLikes(props.props.id, likes - 1);
     } else {
       setliked(true);
       setLikes(likes + 1);
-      props.updateLikes(props.id, likes + 1);
+      props.updateLikes(props.props.id, likes + 1);
     }
   };
 
@@ -46,7 +47,7 @@ const TextAdvice = props => {
                 border="0"
                 alt="Submit"
                 className="like-btn"
-                onClick={addLike}
+                onClick={() => addLike()}
               />
               <span className="like-tag">{likes}</span>
             </div>

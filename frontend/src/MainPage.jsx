@@ -8,7 +8,6 @@ const MainPage = props => {
   let [n, setN] = useState(10);
   let [question, setQuestion] = useState("");
   let [details, setDetails] = useState("");
-  let current_id = "";
   let problems = props.props.slice(0, n).reverse();
 
   const renderPost = () => {
@@ -20,6 +19,7 @@ const MainPage = props => {
           subtitle={problem.detail}
           date={_date}
           id={problem._id}
+          setAdviceId={props.setAdviceId}
         />
       );
     });
