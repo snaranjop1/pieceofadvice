@@ -6,7 +6,7 @@ const PoemAdvice = props => {
   let user = _prop.user;
   let text = _prop.text;
   let date = _prop.date;
-  let [likes, setLikes] = useState(0);
+  let [likes, setLikes] = useState(_prop.likes);
   let [liked, setliked] = useState(false);
   let info = _prop.info;
 
@@ -17,9 +17,11 @@ const PoemAdvice = props => {
     if (liked) {
       setliked(false);
       setLikes(likes - 1);
+      props.updateLikes(props.id, likes - 1);
     } else {
       setliked(true);
       setLikes(likes + 1);
+      props.updateLikes(props.id, likes + 1);
     }
   };
 

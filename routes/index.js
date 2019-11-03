@@ -33,6 +33,16 @@ router.get("/spotify-token", (req, res) => {
     });
 });
 
+router.post("/update-like", (req, res) => {
+  myMongoLib.updateLike(req.body);
+  res.send("Updating likes");
+});
+
+router.post("/post-advice", (req, res) => {
+  myMongoLib.postAdvice(req.body);
+  res.send("Estoy en router");
+});
+
 router.get("/advice-rooms", (req, res) => {
   myMongoLib
     .getAdviceRooms()

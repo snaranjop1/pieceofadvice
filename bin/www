@@ -5,6 +5,8 @@
  */
 
 const MyMongoLib = require("../views/MyMongoLib");
+const MyWSLib = require("../views/MyWSLib");
+const myWSLib = MyWSLib();
 const myMongoLib = MyMongoLib();
 
 var app = require("../app");
@@ -27,7 +29,9 @@ var server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
-myMongoLib.listenToChanges();
+myWSLib.setupWs(server);
+myMongoLib.listenToChanges(myWSLib.notifyAll);
+
 server.listen(port);
 server.on("error", onError);
 server.on("listening", onListening);

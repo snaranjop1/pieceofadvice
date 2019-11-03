@@ -75,47 +75,93 @@ const AdvicePage = props => {
     logAdv();
   }, [_prop]);
 
-  const returnMusic = (_src, _text, _date) => {
+  const postAdvice = _advice => {
+    let bod = {
+      advice: _advice,
+      id: _prop._id
+    };
+    fetch("post-advice", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(bod)
+    }).then(res => {});
+  };
+
+  const addLikes = (adv_id, _likes) => {
+    let bod = {
+      advice_id: adv_id,
+      likes: _likes,
+      id: _prop.id
+    };
+    console.log("bodbod", bod);
+    fetch("update-like", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(bod)
+    }).then(res => {});
+  };
+
+  const returnMusic = (_src, _text, _date, _id, _likes) => {
     return (
       <MusicAdvice
+        updateLikes={addLikes}
         props={{
           src: _src,
           user: "anonymous",
           text: _text,
           date: _date,
-          height: "80"
+          height: "80",
+          id: _id,
+          likes: _likes
         }}
       />
     );
   };
 
-  const returnText = (_text, _date) => {
-    return <TextAdvice props={{ text: _text, _id: "AXCHJS", date: _date }} />;
+  const returnText = (_text, _date, _id, _likes) => {
+    return (
+      <TextAdvice
+        updateLikes={addLikes}
+        props={{
+          text: _text,
+          _id: "AXCHJS",
+          date: _date,
+          id: _id,
+          likes: _likes
+        }}
+      />
+    );
   };
 
-  const returnMovie = (_info, _text, _date) => {
+  const returnMovie = (_info, _text, _date, _id, _likes) => {
     return (
       <MovieAdvice
+        updateLikes={addLikes}
         props={{
           info: _info,
           user: "gregorioospina",
           text: _text,
           date: _date,
-          height: "80"
+          height: "80",
+          id: _id,
+          likes: _likes
         }}
       />
     );
   };
 
-  const returnPoem = (_info, _text, _date) => {
+  const returnPoem = (_info, _text, _date, _id, _likes) => {
     return (
       <PoemAdvice
+        updateLikes={addLikes}
         props={{
           info: _info,
           user: "gregorioospina",
           text: _text,
           date: _date,
-          height: "80"
+          height: "80",
+          id: _id,
+          likes: _likes
         }}
       />
     );
@@ -125,20 +171,36 @@ const AdvicePage = props => {
     if (advices === undefined) {
       return;
     }
-    console.log("problema", advices);
     return advices.map(advice => {
       return advice.type === "text"
-        ? returnText(advice.text, advice.date)
+        ? returnText(advice.text, advice.date, advice.id, advice.likes)
         : advice.type === "movie"
-        ? returnMovie(advice.info, advice.text, advice.date)
+        ? returnMovie(
+            advice.info,
+            advice.text,
+            advice.date,
+            advice.id,
+            advice.likes
+          )
         : advice.type === "poem"
-        ? returnPoem(advice.info, advice.text, advice.date)
-        : returnMusic(advice.src, advice.text, advice.date);
+        ? returnPoem(
+            advice.info,
+            advice.text,
+            advice.date,
+            advice.id,
+            advice.likes
+          )
+        : returnMusic(
+            advice.src,
+            advice.text,
+            advice.date,
+            advice.id,
+            advice.likes
+          );
     });
   };
 
   const addAdvice = advice => {
-    console.log("entro", _prop.advices);
     if (_prop.advices.status !== undefined) {
       let advcs = [];
       advcs.push(advice);
@@ -164,7 +226,11 @@ const AdvicePage = props => {
         <div class="card-columns">{renderAdvices()}</div>
       </div>
       <div id="menu-container">
-        <AdviceMenu addAdvice={addAdvice} token={spot_token} />
+        <AdviceMenu
+          postAdvice={postAdvice}
+          addAdvice={addAdvice}
+          token={spot_token}
+        />
       </div>
     </>
   );
