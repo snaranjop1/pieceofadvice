@@ -28,7 +28,6 @@ function App() {
       .then(res => res.json())
       .then(data => {
         setAdvices(data);
-        console.log("advices", advices);
       });
   }, []);
 

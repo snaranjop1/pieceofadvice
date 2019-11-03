@@ -52,6 +52,7 @@ router.get("/advice-rooms", (req, res) => {
   myMongoLib
     .getAdviceRooms()
     .then(docs => {
+      console.log("docs", docs);
       res.send(docs);
     })
     .catch(err => {
