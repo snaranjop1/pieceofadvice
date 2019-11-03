@@ -53,7 +53,6 @@ const MainPage = props => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(bod)
     }).then(res => {});
-    setN(5);
   };
 
   return (
