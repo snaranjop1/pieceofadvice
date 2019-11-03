@@ -14,6 +14,15 @@ const Navbar = () => {
           />
           Piece Of Advice
         </a>
+        <button
+          type="button"
+          class="btn btn-primary form-inline"
+          id="getAdvicebtn"
+          data-toggle="modal"
+          data-target="#exampleModalCenter"
+        >
+          Share my problem
+        </button>
       </nav>
     </div>
   );

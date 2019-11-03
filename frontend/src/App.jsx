@@ -28,7 +28,7 @@ function App() {
     <Router>
       <div id="content-container">
         <Switch>
-          <Route path="/" exact component={MainPage} />
+          <Route path="/" component={() => <MainPage props={advices} />} />
           <Route
             path="/advice"
             component={() => <AdvicePage props={advices} />}

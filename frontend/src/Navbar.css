@@ -3,8 +3,23 @@
   font-weight: 700;
 }
 
+.navbar-brand:hover {
+  color: white;
+}
+
 #logo {
   width: 55px;
   height: 55px;
   margin-right: 12px;
+}
+
+#getAdvicebtn {
+  background: transparent;
+  border-color: white;
+  font-weight: 700;
+}
+
+#getAdvicebtn:hover {
+  background: white;
+  color: black;
 }
