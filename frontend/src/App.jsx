@@ -31,6 +31,16 @@ function App() {
       });
   }, []);
 
+  const filterAdvices = () => {
+    let id = window.location.pathname.split("/")[2];
+    let x = advices.filter(adv => {
+      if (adv._id === id) {
+        return adv;
+      }
+    })[0];
+    return x;
+  };
+
   return (
     <Router>
       <div id="content-container">
@@ -41,9 +51,9 @@ function App() {
             component={() => <MainPage props={advices} />}
           />
           <Route
-            path="/advice"
+            path="/advice/:id"
             exact
-            component={() => <AdvicePage props={advices} />}
+            component={() => <AdvicePage props={filterAdvices()} />}
           />
         </Switch>
       </div>
