@@ -199,3 +199,9 @@ p {
   margin: 0 auto;
   display: block;
 }
+
+.questionbanner {
+  background-image: url("/background.jpg");
+  padding-bottom: 50px;
+  margin-bottom: 25px;
+}

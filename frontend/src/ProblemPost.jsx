@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./ProblemPost.css";
 
 const ProblemPost = props => {
@@ -9,9 +10,9 @@ const ProblemPost = props => {
   return (
     <div>
       <div className="post-preview">
-        <a href="/advice">
+        <Link to={"/advice"}>
           <h2 className="post-title">{title}</h2>
-        </a>
+        </Link>
         <h3 className="post-subtitle">{subtitle}</h3>
         <p className="post-meta">{"Posted on " + date}</p>
       </div>

@@ -43,6 +43,7 @@ function App() {
           />
           <Route
             path="/advice"
+            exact
             component={() => <AdvicePage props={advices} />}
           />
         </Switch>

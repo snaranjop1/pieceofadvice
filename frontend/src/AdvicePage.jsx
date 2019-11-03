@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Navbar2 from "./Navbar2";
 import TextAdvice from "./TextAdvice";
 import MusicAdvice from "./MusicAdvice";
 import MovieAdvice from "./MovieAdvice";
@@ -218,12 +219,13 @@ const AdvicePage = props => {
 
   return (
     <>
-      <div className="container">
-        <div className="text-center question-banner">
+      <div>
+        <div className="questionbanner text-center">
+          <Navbar2 />
           <h1 id="question"> {question} </h1>
           <h3 id="detail"> {detail} </h3>
         </div>
-        <div class="card-columns">{renderAdvices()}</div>
+        <div class="card-columns container">{renderAdvices()}</div>
       </div>
       <div id="menu-container">
         <AdviceMenu
