@@ -9,6 +9,7 @@ const MainPage = props => {
   let [question, setQuestion] = useState("");
   let [details, setDetails] = useState("");
   let problems = props.props.slice(0, n);
+  let current_id = "";
 
   const renderPost = () => {
     let _date = moment().format("LL");
@@ -18,10 +19,14 @@ const MainPage = props => {
           title={problem.question}
           subtitle={problem.detail}
           date={_date}
+          id={problem._id}
+          setAdvices={setAdvices}
         />
       );
     });
   };
+
+  const setAdvices = () => {};
 
   useEffect(() => {}, []);
 
