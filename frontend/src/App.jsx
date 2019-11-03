@@ -16,6 +16,16 @@ function App() {
   let [advices, setAdvices] = useState(default_info);
 
   useEffect(() => {
+    const ws = new WebSocket("ws://localhost:3001");
+
+    ws.onopen = () => {
+      console.log("CLIENT 1");
+
+      ws.onmessage = msg => {
+        setAdvices(JSON.parse(msg.data));
+      };
+    };
+
     fetch("advice-rooms")
       .then(res => res.json())
       .then(data => {

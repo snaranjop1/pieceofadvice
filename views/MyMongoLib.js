@@ -27,7 +27,7 @@ const MyMongoLib = function() {
       });
     });
 
-  MyMongoLib.listenToChanges = () => {
+  MyMongoLib.listenToChanges = cbk => {
     client.connect(function(err, client) {
       if (err !== null) {
         throw err;
@@ -39,7 +39,8 @@ const MyMongoLib = function() {
 
       const csCursor = testCol.watch();
       csCursor.on("change", data => {
-        console.log("changed!", data);
+        console.log("changes were made");
+        MyMongoLib.getAdviceRooms().then(data => cbk(JSON.stringify(data)));
       });
     });
   };
