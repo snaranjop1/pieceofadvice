@@ -5,7 +5,7 @@ import "./MainPage.css";
 import moment from "moment";
 
 const MainPage = props => {
-  let [n, setN] = useState(5);
+  let [n, setN] = useState(10);
   let [question, setQuestion] = useState("");
   let [details, setDetails] = useState("");
   let problems = props.props.slice(0, n).reverse();
@@ -28,7 +28,7 @@ const MainPage = props => {
   useEffect(() => {}, []);
 
   const moreProblems = () => {
-    setN(n + 5);
+    setN(n + 10);
   };
 
   const handleChangeQuestion = evt => {
