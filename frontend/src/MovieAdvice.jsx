@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Advice.css";
 
+// sguzmanm: Don´t know why but when trying to create this, it didn´t work
 const MovieAdvice = props => {
   let _prop = props.props;
   let user = _prop.user;
