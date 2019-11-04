@@ -179,7 +179,7 @@ const AdvicePage = props => {
       setAdvice(_prop.advices);
     }
   };
-
+  // sguzmanm: Why are you returning react code with empty brackets?
   return (
     <>
       <div>
