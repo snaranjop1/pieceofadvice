@@ -17,7 +17,8 @@ function App() {
   let [advice_id, setId] = useState();
 
   useEffect(() => {
-    const ws = new WebSocket("ws://pieceofadvice.herokuapp.com:3001");
+    let HOST = window.location.origin.replace(/^http/, "ws");
+    let ws = new WebSocket(HOST);
 
     ws.onopen = () => {
       ws.onmessage = msg => {
