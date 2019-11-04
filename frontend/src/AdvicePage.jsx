@@ -9,12 +9,12 @@ import AdviceMenu from "./AdviceMenu";
 import "./AdvicePage.css";
 
 const AdvicePage = props => {
-  let [_prop, setProp] = useState({});
+  let [_prop, setProp] = useState({}); // sguzmanm: Rename this var to something more meaningful
   console.log("properinos", props.props);
   let advice_id = props.advice_id;
   let question = _prop.question;
   let detail = _prop.detail;
-  let [advices, setAdvice] = useState(_prop.advices);
+  let [advices, setAdvice] = useState(_prop.advices); // sguzmanm: Is this necessary? You only need the prop useState at line 12
   let [spot_token, setToken] = useState("");
 
   useEffect(() => {
@@ -179,7 +179,7 @@ const AdvicePage = props => {
       setAdvice(_prop.advices);
     }
   };
-
+  // sguzmanm: Why are you returning react code with empty brackets?
   return (
     <>
       <div>

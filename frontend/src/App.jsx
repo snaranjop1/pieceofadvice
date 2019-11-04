@@ -17,7 +17,7 @@ function App() {
   let [advice_id, setId] = useState();
 
   useEffect(() => {
-    let HOST = window.location.origin.replace(/^http/, "ws");
+    let HOST = window.location.origin.replace(/^http/, "ws"); // sguzmanm: I´d recommend having this URL as an environment var
     let ws = new WebSocket(HOST);
 
     ws.onopen = () => {

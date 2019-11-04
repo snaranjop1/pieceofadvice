@@ -1,9 +1,10 @@
+// sguzmanm: Why is this on the Views folder??? 
 const MongoClient = require("mongodb").MongoClient;
 var ObjectId = require("mongodb").ObjectId;
 
 const MyMongoLib = function() {
   const MyMongoLib = this || {};
-  const url = process.env.MONGO_URL || "mongodb://localhost:27017";
+  const url = process.env.MONGO_URL || "mongodb://localhost:27017"; //sguzmanm: Cool error handling for env vars, I´ll take that in mind.
   const dbName = "pieceofadvice_db";
 
   const client = new MongoClient(url);
@@ -86,7 +87,7 @@ const MyMongoLib = function() {
   };
 
   MyMongoLib.listenToChanges = cbk => {
-    client.connect(function(err, client) {
+    client.connect(function(err, client) { // sguzmanm: Perfaps you can look into async/await API to avoid doing client.connect every time you need to use the database
       if (err !== null) {
         throw err;
       }

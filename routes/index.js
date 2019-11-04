@@ -14,8 +14,9 @@ router.get("/test", function(req, res) {
 
 router.get("/spotify-token", (req, res) => {
   let url_spotify_api = "https://accounts.spotify.com/api/token";
+  // sguzmanm: For UX is it ok to redirect all songs/ playlists to only one account? Wouldn´t it be better to let the user login or something like that?
   let clientid_64 = base64.encode(
-    process.env.SPOTIFY_CLIENT_ID + ":" + process.env.SPOTIFY_CLIENT_SECRET
+    process.env.SPOTIFY_CLIENT_ID + ":" + process.env.SPOTIFY_CLIENT_SECRET 
   );
   fetch(url_spotify_api, {
     body: "grant_type=client_credentials",

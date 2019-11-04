@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./Navbar2.css";
 
+// sguzmanm: Why do you have two navbars?
+
 const Navbar2 = () => {
   return (
     <div className="navbar-div">

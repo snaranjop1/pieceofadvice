@@ -1,3 +1,5 @@
+// sguzmanm: Why is this on the Views folder??? 
+
 const WebSocket = require("ws");
 
 const MyWSLib = function() {

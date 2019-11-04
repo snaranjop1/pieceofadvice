@@ -4,7 +4,15 @@ This web app let's you publish personal problems anonymously searching for advic
 
 ## Objectives
 
+```
+sguzmanm: Try to add an objective for your project. I see that it has good intentions since it tries to help persons with issues in their daily lives.
+```
+
 ## Demo
+
+```
+sguzmanm: Try adding a link to your demo in heroku
+```
 
 ## Technologies
 This proyect was developed using the MERN-Stack
@@ -36,6 +44,10 @@ ATLAS_URI=mongodb+srv://username:password@roomies-75gee.mongodb.net/test?retryWr
 ## Authors
 * [__Sergio Naranjo Puentes__](https://github.com/snaranjop1)
 * [__Gregorio Ospina Arango__](https://github.com/gregorioospina)
+
+```
+sguzmanm: I think it would be nice to include how to deploy this project in an external environment, e.g., Heroku
+```
 
 
 ## Licence

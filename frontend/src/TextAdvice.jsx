@@ -5,7 +5,7 @@ const TextAdvice = props => {
   let text = props.props.text;
   let user = "gregorioospina";
   let date = props.props.date;
-  let [likes, setLikes] = useState(props.props.likes);
+  let [likes, setLikes] = useState(props.props.likes); // sguzmanm: It is bad practice to use props in your state
   let [liked, setliked] = useState(false);
   console.log("text advice props", props);
 
