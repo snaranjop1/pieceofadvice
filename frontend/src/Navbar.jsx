@@ -5,6 +5,7 @@ const Navbar = () => {
   return (
     <div className="navbar-div">
       <nav className="navbar">
+        {/* sguzmanm: I´d recommend using Link from react router to avoid re rendering the page*/}
         <a className="navbar-brand" href="/">
           <img
             src="/logo.png"
