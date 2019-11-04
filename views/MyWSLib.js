@@ -13,11 +13,9 @@ const MyWSLib = function() {
     });
   };
   MyWSLib.notifyAll = data => {
-    setInterval(() => {
-      for (let ws of clients) {
-        ws.send(data);
-      }
-    }, 1000);
+    for (let ws of clients) {
+      ws.send(data);
+    }
   };
   return MyWSLib;
 };
