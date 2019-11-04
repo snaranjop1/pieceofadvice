@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 
+
 const MusicAdvice = props => {
   let _prop = props.props;
   let src = _prop.src;
   let user = _prop.user;
   let text = _prop.text;
   let date = _prop.date;
-  let [height, setHeight] = useState(_prop.height);
-  let [likes, setLikes] = useState(_prop.likes);
+  let [height, setHeight] = useState(_prop.height); // sguzmanm: Is it bad practice to set a state from given props. 
+  let [likes, setLikes] = useState(_prop.likes); // sguzmanm: Is it bad practice to set a state from given props. 
   let [liked, setliked] = useState(false);
 
   let template = Math.floor(Math.random() * 3) + 1;
