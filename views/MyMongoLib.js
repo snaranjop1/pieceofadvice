@@ -1,3 +1,4 @@
+// sguzmanm: Why is this on the Views folder??? 
 const MongoClient = require("mongodb").MongoClient;
 var ObjectId = require("mongodb").ObjectId;
 
