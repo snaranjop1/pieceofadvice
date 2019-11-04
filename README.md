@@ -4,7 +4,11 @@ This web app let's you publish personal problems anonymously searching for advic
 
 ## Objectives
 
+- sguzmanm: Try to add an objective for your project. I see that it has good intentions since it tries to help persons with issues in their daily lives.
+
 ## Demo
+
+- sguzmanm: Try adding a link to your demo in heroku
 
 ## Technologies
 This proyect was developed using the MERN-Stack
