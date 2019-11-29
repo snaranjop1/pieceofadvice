@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ProblemPost from "./ProblemPost";
 import Navbar from "./Navbar";
+import PostModal from "./PostModal";
 import "./MainPage.css";
 import moment from "moment";
 
@@ -8,6 +9,8 @@ const MainPage = props => {
   let [n, setN] = useState(10);
   let [question, setQuestion] = useState("");
   let [details, setDetails] = useState("");
+  let [logged, setLogged] = useState(false);
+  let [userInfo, setUserInfo] = useState({});
   let problems = props.props.slice(0, n).reverse();
 
   const renderPost = () => {
@@ -39,6 +42,16 @@ const MainPage = props => {
     setDetails(evt.target.value);
   };
 
+  const handleUserInfoChange = info => {
+    console.log(info);
+    setUserInfo(info);
+  };
+
+  const handleLoggedInChange = state => {
+    console.log(state);
+    setLogged(state);
+  };
+
   const postProblem = () => {
     let _date = moment().format("LL");
     let bod = {
@@ -52,14 +65,14 @@ const MainPage = props => {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(bod)
-    }).then(res => {});
+    }).then(() => {});
   };
 
   return (
     <div>
       <header className="masthead">
         <div className="overlay"></div>
-        <Navbar />
+        <Navbar _logged={logged} handleLoggedInChange={handleLoggedInChange} />
         <div className="container">
           <div className="row">
             <div className="col-lg-8 col-md-10 mx-auto">
@@ -91,7 +104,6 @@ const MainPage = props => {
         </div>
       </div>
       <hr></hr>
-
       <div
         class="modal fade"
         id="exampleModalCenter"
@@ -101,56 +113,17 @@ const MainPage = props => {
         aria-hidden="true"
       >
         <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header text-center">
-              <h4 class="modal-title w-100 font-weight-bold">Get Advice</h4>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body mx-3">
-              <form>
-                <div class="form-group">
-                  <label for="problem">Problem or Question</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="problem"
-                    placeholder="My dog died and i don't know what to do"
-                    value={question}
-                    onChange={handleChangeQuestion}
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="problemdetails">Comments or details</label>
-                  <textarea
-                    class="form-control"
-                    id="problemdetails"
-                    rows="2"
-                    value={details}
-                    onChange={handleChangeDetails}
-                  ></textarea>
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer d-flex justify-content-center">
-              <button
-                type="button"
-                class="btn btn-primary"
-                id="publishbtn"
-                onClick={postProblem}
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                Publish
-              </button>
-            </div>
-          </div>
+          <PostModal
+            handleChangeQuestion={handleChangeQuestion}
+            question={question}
+            details={details}
+            handleChangeDetails={handleChangeDetails}
+            postProblem={postProblem}
+            _logged={logged}
+            _userInfo={userInfo}
+            handleUserInfoChange={handleUserInfoChange}
+            handleLoggedInChange={handleLoggedInChange}
+          />
         </div>
       </div>
 

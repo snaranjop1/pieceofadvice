@@ -17,6 +17,8 @@
   background: transparent;
   border-color: white;
   font-weight: 700;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 #getAdvicebtn:hover {

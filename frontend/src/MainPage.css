@@ -17,6 +17,16 @@ header.masthead .overlay {
   opacity: 0.26;
 }
 
+.abcRioButton {
+  margin: 2em;
+  margin-top: 1em;
+  margin-left: 7em;
+}
+
+.g-signin2 {
+  max-width: 120px;
+}
+
 header.masthead .title {
   padding: 90px 0 150px;
   color: white;
