@@ -7,6 +7,10 @@ header.masthead {
   text-align: center;
 }
 
+#problemdetails {
+  margin-bottom: 15px;
+}
+
 header.masthead .overlay {
   position: absolute;
   top: 0;
@@ -30,6 +34,19 @@ header.masthead .overlay {
 header.masthead .title {
   padding: 90px 0 150px;
   color: white;
+}
+
+#cat-col {
+  position: fixed;
+  margin-left: 3em;
+  margin-right: 7em;
+
+  width: 250px;
+}
+
+.btn-tag {
+  margin: 2px;
+  margin-top: 7px;
 }
 
 header.masthead .title h1 {

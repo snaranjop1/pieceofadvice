@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 const PostModal = props => {
-  let [logged, setLogged] = useState(props.logged);
-
   const preLogggedModal = () => {
     return (
       <div class="modal-content">
@@ -28,10 +26,7 @@ const PostModal = props => {
     }
   }, []);
 
-  useEffect(() => {
-    console.log("yes");
-    setLogged(props._logged);
-  }, [props._logged]);
+  useEffect(() => {}, [props._logged]);
 
   const onSignIn = googleUser => {
     var profile = googleUser.getBasicProfile();
@@ -45,14 +40,20 @@ const PostModal = props => {
     props.handleUserInfoChange(info);
   };
 
-  const signOut = () => {
-    if (props._logged) {
-      var auth2 = window.gapi.auth2.getAuthInstance();
-      auth2.signOut().then(function() {
-        console.log("User signed out.");
-        props.handleLoggedInChange(false);
-      });
-    }
+  const renderTags = () => {
+    return props.tags.map(tag => {
+      return (
+        <button
+          key={tag}
+          type="button"
+          onClick={() => props.removeTag(tag)}
+          class="btn btn-warning btn-sm btn-tag"
+        >
+          {tag} &#10060;
+          <span class="sr-only">{tag} tag</span>
+        </button>
+      );
+    });
   };
 
   const loggedModal = () => {
@@ -77,7 +78,7 @@ const PostModal = props => {
               <label for="problem">Problem or Question</label>
               <input
                 type="text"
-                class="form-control"
+                className="form-control"
                 id="problem"
                 placeholder="My dog died and i don't know what to do"
                 value={props.question}
@@ -87,12 +88,22 @@ const PostModal = props => {
             <div class="form-group">
               <label for="problemdetails">Comments or details</label>
               <textarea
-                class="form-control"
+                className="form-control"
                 id="problemdetails"
                 rows="2"
                 value={props.details}
                 onChange={props.handleChangeDetails}
               ></textarea>
+              <label for="problemcategories">Tags</label>
+              <input
+                type="text"
+                className="form-control"
+                id="problemcategories"
+                placeHolder="Add Categories!"
+                maxLength="20"
+                onKeyDown={props.handleNewTag}
+              ></input>
+              <div id="tags-div">{renderTags()}</div>
             </div>
           </form>
         </div>

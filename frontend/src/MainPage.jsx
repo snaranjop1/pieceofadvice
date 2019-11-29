@@ -9,9 +9,14 @@ const MainPage = props => {
   let [n, setN] = useState(10);
   let [question, setQuestion] = useState("");
   let [details, setDetails] = useState("");
+  let [tags, setTags] = useState([]);
   let [logged, setLogged] = useState(false);
   let [userInfo, setUserInfo] = useState({});
+  let [totalTags, setTotalTags] = useState([]);
   let problems = props.props.slice(0, n).reverse();
+
+  const TOGGLE_TAG = "&#10071;";
+  const UNTOGGLED = "&#10069;";
 
   const renderPost = () => {
     let _date = moment().format("LL");
@@ -43,13 +48,43 @@ const MainPage = props => {
   };
 
   const handleUserInfoChange = info => {
-    console.log(info);
     setUserInfo(info);
   };
 
   const handleLoggedInChange = state => {
-    console.log(state);
     setLogged(state);
+  };
+
+  const removeTag = tag => {
+    let new_tags = tags.filter(_tag => {
+      return _tag !== tag;
+    });
+    setTags([...new_tags]);
+  };
+
+  const handleNewTag = evt => {
+    if (evt.key === "Enter" && !tags.includes(evt.target.value)) {
+      let copy = [...tags];
+      copy.push(evt.target.value);
+      setTags(copy);
+      evt.target.value = "";
+    } else if (evt.key === "Enter") {
+      evt.target.value = "";
+    }
+  };
+
+  const newTags = () => {
+    let appendable = [];
+    tags.map(_tag => {
+      let new_t = {
+        tag: _tag,
+        toggle: false,
+        amount: 1
+      };
+      appendable.push(new_t);
+    });
+    let copy = [...totalTags];
+    return [...copy, ...appendable];
   };
 
   const postProblem = () => {
@@ -58,14 +93,45 @@ const MainPage = props => {
       question: question,
       detail: details,
       date: _date,
+      tags: tags,
       advices: []
     };
+    setTotalTags(newTags());
     console.log("bod problem", bod);
     fetch("post-advice-rooms", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(bod)
     }).then(() => {});
+  };
+
+  const whatTag = (text, tog) =>
+    tog ? <> {text} &#10071; </> : <> {text} &#10069; </>;
+
+  const toggleTag = tag => {
+    let copy = [...totalTags];
+    copy.map(_tag => {
+      if (_tag.tag === tag) {
+        _tag.toggle = !_tag.toggle;
+      }
+    });
+    setTotalTags(copy);
+  };
+
+  const renderTotalTags = () => {
+    return totalTags.map(tag => {
+      return (
+        <button
+          key={tag.tag}
+          type="button"
+          onClick={() => toggleTag(tag.tag)}
+          class="btn btn-warning btn-sm btn-tag"
+        >
+          {whatTag(tag.tag, tag.toggle)}
+          <span class="sr-only">{tag.tag} tag</span>
+        </button>
+      );
+    });
   };
 
   return (
@@ -86,7 +152,15 @@ const MainPage = props => {
           </div>
         </div>
       </header>
-
+      <div
+        align="left"
+        className="cat-col"
+        style={{ backgroundColor: "#aaaa" }}
+        id="cat-col"
+      >
+        GREGORIO OSPINA
+        <div>{renderTotalTags()}</div>
+      </div>
       <div className="container">
         <div className="row">
           <div className="col-lg-8 col-md-10 mx-auto">
@@ -121,8 +195,11 @@ const MainPage = props => {
             postProblem={postProblem}
             _logged={logged}
             _userInfo={userInfo}
+            tags={tags}
             handleUserInfoChange={handleUserInfoChange}
             handleLoggedInChange={handleLoggedInChange}
+            handleNewTag={handleNewTag}
+            removeTag={removeTag}
           />
         </div>
       </div>
