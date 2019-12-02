@@ -12,25 +12,46 @@ const MainPage = props => {
   let [tags, setTags] = useState([]);
   let [logged, setLogged] = useState(false);
   let [userInfo, setUserInfo] = useState({});
-  let [totalTags, setTotalTags] = useState([]);
-  let problems = props.props.slice(0, n).reverse();
-
-  const TOGGLE_TAG = "&#10071;";
-  const UNTOGGLED = "&#10069;";
+  let [totalTags, setTotalTags] = useState([
+    { tag: "Grego", toggled: false, amount: 3 },
+    { tag: "1", toggled: false, amount: 2 },
+    { tag: "2", toggled: false, amount: 1 }
+  ]);
+  let [filter, setFilter] = useState([]);
+  let problems = props.problems.slice(0, n).reverse();
 
   const renderPost = () => {
     let _date = moment().format("LL");
-    return problems.map(problem => {
+    return chooseProblems().map(problem => {
       return (
         <ProblemPost
           title={problem.question}
           subtitle={problem.detail}
           date={_date}
           id={problem._id}
+          tags={problem.tags}
           setAdviceId={props.setAdviceId}
         />
       );
     });
+  };
+
+  const chooseProblems = () => {
+    if (filter.length === 0) {
+      return problems;
+    } else {
+      let filtered_problems = problems.filter(prob => {
+        let found = false;
+        for (let i = 0; i < prob.tags.length; i++) {
+          if (filter.includes(prob.tags[i])) {
+            found = true;
+            break;
+          }
+        }
+        return found;
+      });
+      return filtered_problems;
+    }
   };
 
   useEffect(() => {}, []);
@@ -75,15 +96,24 @@ const MainPage = props => {
 
   const newTags = () => {
     let appendable = [];
-    tags.map(_tag => {
-      let new_t = {
-        tag: _tag,
-        toggle: false,
-        amount: 1
-      };
-      appendable.push(new_t);
-    });
     let copy = [...totalTags];
+    let double = false;
+    for (let i = 0; i < tags.length; i++) {
+      totalTags.map((ttag, index) => {
+        if (ttag.tag === tags[i]) {
+          copy[index].amount++;
+          double = true;
+        }
+      });
+      if (double === false) {
+        let new_t = {
+          tag: tags[i],
+          toggle: false,
+          amount: 1
+        };
+        appendable.push(new_t);
+      }
+    }
     return [...copy, ...appendable];
   };
 
@@ -96,7 +126,11 @@ const MainPage = props => {
       tags: tags,
       advices: []
     };
-    setTotalTags(newTags());
+    let sortedTags = newTags().sort((a, b) =>
+      a.amount > b.amount ? -1 : a.amount < b.amount ? 1 : -1
+    );
+    setTotalTags(sortedTags);
+    setTags([]);
     console.log("bod problem", bod);
     fetch("post-advice-rooms", {
       method: "post",
@@ -105,18 +139,37 @@ const MainPage = props => {
     }).then(() => {});
   };
 
-  const whatTag = (text, tog) =>
-    tog ? <> {text} &#10071; </> : <> {text} &#10069; </>;
+  const whatTag = (text, tog, amount) =>
+    tog ? (
+      <>
+        {" "}
+        {text} : {amount} &#10071;{" "}
+      </>
+    ) : (
+      <>
+        {" "}
+        {text}: {amount} &#10069;{" "}
+      </>
+    );
 
   const toggleTag = tag => {
     let copy = [...totalTags];
     copy.map(_tag => {
       if (_tag.tag === tag) {
         _tag.toggle = !_tag.toggle;
+        let filter_copy = [...filter];
+        if (_tag.toggle) {
+          filter_copy.push(tag);
+        } else {
+          filter_copy = filter_copy.filter(tag2 => tag2 !== tag);
+        }
+        setFilter(filter_copy);
       }
     });
     setTotalTags(copy);
   };
+
+  const whatClass = tog => (tog ? "warning" : "light");
 
   const renderTotalTags = () => {
     return totalTags.map(tag => {
@@ -125,10 +178,10 @@ const MainPage = props => {
           key={tag.tag}
           type="button"
           onClick={() => toggleTag(tag.tag)}
-          class="btn btn-warning btn-sm btn-tag"
+          className={`btn btn-${whatClass(tag.toggle)} btn-sm btn-tag`}
         >
-          {whatTag(tag.tag, tag.toggle)}
-          <span class="sr-only">{tag.tag} tag</span>
+          {whatTag(tag.tag, tag.toggle, tag.amount)}
+          <span className="sr-only">{tag.tag} tag</span>
         </button>
       );
     });
@@ -145,20 +198,17 @@ const MainPage = props => {
               <div className="title">
                 <h1>Welcome to Piece of Advice</h1>
                 <span className="subtitle">
-                  <em>Where you can get some advice for your problems</em>
+                  <em>Get Some Advice</em>
                 </span>
               </div>
             </div>
           </div>
         </div>
       </header>
-      <div
-        align="left"
-        className="cat-col"
-        style={{ backgroundColor: "#aaaa" }}
-        id="cat-col"
-      >
-        GREGORIO OSPINA
+      <div align="left" className="cat-col" id="cat-col">
+        <p id="filter-p">
+          <h5 className="h-title"> Filter by Tags! </h5>
+        </p>
         <div>{renderTotalTags()}</div>
       </div>
       <div className="container">
@@ -179,14 +229,14 @@ const MainPage = props => {
       </div>
       <hr></hr>
       <div
-        class="modal fade"
+        className="modal fade"
         id="exampleModalCenter"
         tabindex="-1"
         role="dialog"
         aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true"
       >
-        <div class="modal-dialog" role="document">
+        <div className="modal-dialog" role="document">
           <PostModal
             handleChangeQuestion={handleChangeQuestion}
             question={question}

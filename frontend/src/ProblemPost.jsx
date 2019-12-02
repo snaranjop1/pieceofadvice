@@ -11,6 +11,12 @@ const ProblemPost = props => {
     props.setAdviceId(props.id);
   };
 
+  const renderTags = () => {
+    return props.tags.map(_tag => {
+      return <span className="badge badge-warning btn-tag "> {_tag} </span>;
+    });
+  };
+
   return (
     <div>
       <div className="post-preview" onMouseEnter={setID}>
@@ -18,7 +24,10 @@ const ProblemPost = props => {
           <h2 className="post-title">{title}</h2>
         </Link>
         <h3 className="post-subtitle">{subtitle}</h3>
-        <p className="post-meta">{"Posted on " + date}</p>
+        <div className="row">
+          <p className="post-meta">{"Posted on " + date}</p>
+          <div className="post-tag-div">{renderTags()}</div>
+        </div>
       </div>
       <hr></hr>
     </div>

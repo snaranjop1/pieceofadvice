@@ -7,10 +7,33 @@ function App() {
   let default_info = [
     {
       id: "000",
-      err: "err",
-      question: "",
-      detail: "",
-      items: []
+      question: "Test 1",
+      detail:
+        "cool description cool description cool description cool description cool description cool description ",
+      items: [],
+      tags: ["Grego"]
+    },
+    {
+      id: "000",
+      question: "Test 2",
+      detail: "cool description",
+      items: [],
+      tags: ["Grego", "1"]
+    },
+    {
+      id: "000",
+      question: "Test 3",
+      detail: "Cool description cool description cool description ",
+      items: [],
+      tags: ["Grego", "2"]
+    },
+    {
+      id: "000",
+      question: "Test 4",
+      detail:
+        "cool description cool description cool description cool description",
+      items: [],
+      tags: ["1", "2"]
     }
   ];
   let [advices, setAdvices] = useState(default_info);
@@ -46,14 +69,28 @@ function App() {
             path="/"
             exact
             component={() => (
-              <MainPage setAdviceId={setAdviceId} props={advices} />
+              <MainPage
+                setAdviceId={setAdviceId}
+                problems={advices}
+                // logged={logged}
+                // userInfo={userInfo}
+                // handleLoggedChange={handleLoggedChange}
+                // handleUserInfoChange={handleUserInfoChange}
+              />
             )}
           />
           <Route
             path="/advice"
             exact
             component={() => (
-              <AdvicePage props={advices} advice_id={advice_id} />
+              <AdvicePage
+                problems={advices}
+                advice_id={advice_id}
+                // logged={logged}
+                // userInfo={userInfo}
+                // handleLoggedChange={handleLoggedChange}
+                // handleUserInfoChange={handleUserInfoChange}
+              />
             )}
           />
         </Switch>
