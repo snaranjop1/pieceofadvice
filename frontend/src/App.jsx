@@ -38,6 +38,8 @@ function App() {
   ];
   let [advices, setAdvices] = useState(default_info);
   let [advice_id, setId] = useState();
+  let [userInfo, setUserInfo] = useState({});
+  let [logged, setLogged] = useState(false);
 
   useEffect(() => {
     let HOST = window.location.origin.replace(/^http/, "ws");
@@ -56,6 +58,14 @@ function App() {
       });
   }, []);
 
+  const handleUserInfo = info => {
+    setUserInfo(info);
+  };
+
+  const handleLoggedIn = status => {
+    setLogged(status);
+  };
+
   const setAdviceId = _id => {
     setId(_id);
     console.log(advice_id);
@@ -72,10 +82,10 @@ function App() {
               <MainPage
                 setAdviceId={setAdviceId}
                 problems={advices}
-                // logged={logged}
-                // userInfo={userInfo}
-                // handleLoggedChange={handleLoggedChange}
-                // handleUserInfoChange={handleUserInfoChange}
+                logged={logged}
+                userInfo={userInfo}
+                handleLogged_App={handleLoggedIn}
+                handleUserInfo_App={handleUserInfo}
               />
             )}
           />
@@ -86,10 +96,10 @@ function App() {
               <AdvicePage
                 problems={advices}
                 advice_id={advice_id}
-                // logged={logged}
-                // userInfo={userInfo}
-                // handleLoggedChange={handleLoggedChange}
-                // handleUserInfoChange={handleUserInfoChange}
+                logged={logged}
+                userInfo={userInfo}
+                handleLogged_App={handleLoggedIn}
+                handleUserInfo_App={handleUserInfo}
               />
             )}
           />

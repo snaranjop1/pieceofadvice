@@ -10,8 +10,8 @@ const MainPage = props => {
   let [question, setQuestion] = useState("");
   let [details, setDetails] = useState("");
   let [tags, setTags] = useState([]);
-  let [logged, setLogged] = useState(false);
-  let [userInfo, setUserInfo] = useState({});
+  let [logged, setLogged] = useState(props.logged);
+  let [userInfo, setUserInfo] = useState(props.userInfo);
   let [totalTags, setTotalTags] = useState([
     { tag: "Grego", toggled: false, amount: 3 },
     { tag: "1", toggled: false, amount: 2 },

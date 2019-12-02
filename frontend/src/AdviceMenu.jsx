@@ -118,7 +118,10 @@ const AdviceMenu = props => {
         "Content-Type": "application/json"
       }
     })
-      .then(res => res.json())
+      .then(res => {
+        console.log(res);
+        return res.json();
+      })
       .then(data => {
         let advice = {
           id: _id,

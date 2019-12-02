@@ -31,7 +31,7 @@ const AdvicePage = props => {
   }, [_prop]);
 
   const filterAdvices = () => {
-    let x = props.props.filter(adv => {
+    let x = props.problems.filter(adv => {
       if (adv._id === advice_id) {
         return adv;
       }
