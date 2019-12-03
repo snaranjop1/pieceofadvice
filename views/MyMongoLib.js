@@ -15,10 +15,49 @@ const MyMongoLib = function() {
           reject(err);
           return;
         }
-        console.log("Connected to server");
+        console.log("Retrieving problems");
 
         const db = client.db(dbName);
         const testCol = db.collection("advice_room");
+        return testCol
+          .find({})
+          .toArray()
+          .then(resolve)
+          .catch(reject);
+      });
+    });
+
+  MyMongoLib.getAdviceRoom = adviceid =>
+    new Promise((resolve, reject) => {
+      client.connect(function(err, client) {
+        if (err !== null) {
+          reject(err);
+          return;
+        }
+        console.log("Retrieving problem", adviceid);
+
+        const db = client.db(dbName);
+        const testCol = db.collection("advice_room");
+
+        return testCol
+          .find({ _id: ObjectId(adviceid) })
+          .toArray()
+          .then(resolve)
+          .catch(reject);
+      });
+    });
+
+  MyMongoLib.getAdviceTags = () =>
+    new Promise((resolve, reject) => {
+      client.connect(function(err, client) {
+        if (err !== null) {
+          reject(err);
+          return;
+        }
+        console.log("Retrieving tags");
+
+        const db = client.db(dbName);
+        const testCol = db.collection("advice_tags");
         return testCol
           .find({})
           .toArray()
@@ -46,7 +85,7 @@ const MyMongoLib = function() {
           { _id: ObjectId(id), "advices._id": body.advice_id },
           { $set: { "advices.$.likes": likes } }
         )
-        .then(res => {});
+        .then(() => {});
     });
   };
 
@@ -82,6 +121,20 @@ const MyMongoLib = function() {
       const testCol = db.collection("advice_room");
 
       testCol.insertOne(body);
+    });
+  };
+
+  MyMongoLib.postTag = _tags => {
+    client.connect(function(err, client) {
+      if (err !== null) {
+        throw err;
+      }
+      console.log("Posting new tag", _tags);
+
+      const db = client.db(dbName);
+      const testCol = db.collection("advice_tags");
+
+      testCol.updateOne({}, { $set: { tags: _tags } });
     });
   };
 

@@ -43,14 +43,43 @@ router.post("/post-advice", (req, res) => {
   res.send("Estoy en router");
 });
 
+router.post("/post-advice-tag", (req, res) => {
+  console.log("tagBody", req.body);
+  myMongoLib.postTag(req.body);
+  res.send("updatingTags");
+});
+
 router.post("/post-advice-rooms", (req, res) => {
   console.log("reqbody", req.body);
   myMongoLib.postProblem(req.body);
 });
 
+router.get("/advice-tags", (req, res) => {
+  myMongoLib
+    .getAdviceTags()
+    .then(docs => {
+      res.send(docs);
+    })
+    .catch(err => {
+      res.send({ err: true, msg: err });
+    });
+});
+
 router.get("/advice-rooms", (req, res) => {
   myMongoLib
     .getAdviceRooms()
+    .then(docs => {
+      res.send(docs);
+    })
+    .catch(err => {
+      res.send({ err: true, msg: err });
+    });
+});
+
+router.get("/advice-room/:adviceId", (req, res) => {
+  let adviceId = req.params.adviceId;
+  myMongoLib
+    .getAdviceRoom(adviceId)
     .then(docs => {
       res.send(docs);
     })

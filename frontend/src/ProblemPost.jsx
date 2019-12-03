@@ -23,7 +23,7 @@ const ProblemPost = props => {
     <div>
       <div class="card shadow rounded" id="problem-card">
         <div className="card-body">
-          <Link to={{ pathname: "/advice" }}>
+          <Link to={{ pathname: `/advice/${props.id}` }}>
             <h1 id="problem-title">{title}</h1>
           </Link>
           <h2 id="problem-details">{subtitle}</h2>

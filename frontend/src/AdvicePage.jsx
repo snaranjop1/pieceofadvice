@@ -9,12 +9,8 @@ import AdviceMenu from "./AdviceMenu";
 import "./AdvicePage.css";
 
 const AdvicePage = props => {
-  let [_prop, setProp] = useState({});
-  console.log("properinos", props.props);
-  let advice_id = props.advice_id;
-  let question = _prop.question;
-  let detail = _prop.detail;
-  let [advices, setAdvice] = useState(_prop.advices);
+  let [problem, setProblem] = useState({});
+  let [advices, setAdvice] = useState(problem.advices);
   let [spot_token, setToken] = useState("");
 
   useEffect(() => {
@@ -23,26 +19,30 @@ const AdvicePage = props => {
       .then(data => {
         setToken(data.access_token);
       });
-    setProp(filterAdvices());
+    fetch(`/advice-room/${props.match.params.adviceId}`)
+      .then(res => res.json())
+      .then(data => {
+        console.log("data", data);
+        setProblem(data);
+      });
   }, []);
 
   useEffect(() => {
     logAdv();
-  }, [_prop]);
+  }, [problem]);
 
   const filterAdvices = () => {
-    let x = props.problems.filter(adv => {
-      if (adv._id === advice_id) {
+    return props.problems.filter(adv => {
+      if (adv._id === props.adviceId) {
         return adv;
       }
     })[0];
-    return x;
   };
 
-  const postAdvice = _advice => {
+  const postAdvice = problem => {
     let bod = {
-      advice: _advice,
-      id: _prop._id
+      advice: problem,
+      id: problem._id
     };
 
     fetch("post-advice", {
@@ -56,14 +56,14 @@ const AdvicePage = props => {
     let bod = {
       advice_id: adv_id,
       likes: _likes,
-      id: _prop.id
+      id: problem.id
     };
     console.log("bodbod", bod);
     fetch("update-like", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(bod)
-    }).then(res => {});
+    }).then(() => {});
   };
 
   const returnMusic = (_src, _text, _date, _id, _likes) => {
@@ -165,7 +165,7 @@ const AdvicePage = props => {
   };
 
   const addAdvice = advice => {
-    if (_prop.advices.status !== undefined) {
+    if (problem.advices.status !== undefined) {
       let advcs = [];
       advcs.push(advice);
       setAdvice(advcs);
@@ -175,18 +175,18 @@ const AdvicePage = props => {
   };
 
   const logAdv = () => {
-    if (_prop.advices !== undefined) {
-      setAdvice(_prop.advices);
+    if (problem.advices !== undefined) {
+      setAdvice(problem.advices);
     }
   };
 
   return (
     <>
       <div>
-        <div className="questionbanner text-center">
+        <div className="problem.questionbanner text-center">
           <Navbar2 />
-          <h1 id="question"> {question} </h1>
-          <h3 id="detail"> {detail} </h3>
+          <h1 id="problem.question"> {problem.question} </h1>
+          <h3 id="problem.detail"> {problem.detail} </h3>
         </div>
         <div class="card-columns container">{renderAdvices()}</div>
       </div>

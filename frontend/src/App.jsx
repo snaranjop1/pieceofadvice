@@ -4,39 +4,8 @@ import MainPage from "./MainPage";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
-  let default_info = [
-    {
-      id: "000",
-      question: "Test 1",
-      detail:
-        "cool description cool description cool description cool description cool description cool description ",
-      items: [],
-      tags: ["Grego"]
-    },
-    {
-      id: "000",
-      question: "Test 2",
-      detail: "cool description",
-      items: [],
-      tags: ["Grego", "1"]
-    },
-    {
-      id: "000",
-      question: "Test 3",
-      detail: "Cool description cool description cool description ",
-      items: [],
-      tags: ["Grego", "2"]
-    },
-    {
-      id: "000",
-      question: "Test 4",
-      detail:
-        "cool description cool description cool description cool description",
-      items: [],
-      tags: ["1", "2"]
-    }
-  ];
-  let [advices, setAdvices] = useState(default_info);
+  let [advices, setAdvices] = useState([]);
+  let [tags, setTags] = useState([]);
   let [advice_id, setId] = useState();
   let [userInfo, setUserInfo] = useState({});
   let [logged, setLogged] = useState(false);
@@ -55,6 +24,11 @@ function App() {
       .then(res => res.json())
       .then(data => {
         setAdvices(data);
+      });
+    fetch("advice-tags")
+      .then(res => res.json())
+      .then(data => {
+        setTags(data[0].tags);
       });
   }, []);
 
@@ -83,6 +57,7 @@ function App() {
                 setAdviceId={setAdviceId}
                 problems={advices}
                 logged={logged}
+                tags={tags}
                 userInfo={userInfo}
                 handleLogged_App={handleLoggedIn}
                 handleUserInfo_App={handleUserInfo}
@@ -90,16 +65,16 @@ function App() {
             )}
           />
           <Route
-            path="/advice"
+            path="/advice/:adviceId"
             exact
-            component={() => (
+            component={p_props => (
               <AdvicePage
                 problems={advices}
-                advice_id={advice_id}
                 logged={logged}
                 userInfo={userInfo}
                 handleLogged_App={handleLoggedIn}
                 handleUserInfo_App={handleUserInfo}
+                {...p_props}
               />
             )}
           />

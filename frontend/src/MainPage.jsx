@@ -13,11 +13,7 @@ const MainPage = props => {
   let [tags, setTags] = useState([]);
   let [logged, setLogged] = useState(props.logged);
   let [userInfo, setUserInfo] = useState(props.userInfo);
-  let [totalTags, setTotalTags] = useState([
-    { tag: "Grego", toggled: false, amount: 3 },
-    { tag: "1", toggled: false, amount: 2 },
-    { tag: "2", toggled: false, amount: 1 }
-  ]);
+  let [totalTags, setTotalTags] = useState(props.tags);
   let [filter, setFilter] = useState([]);
   let problems = props.problems;
 
@@ -41,21 +37,27 @@ const MainPage = props => {
   };
 
   const renderTopCards = () => {
-    return problems
-      .slice(0, 4)
-      .reverse()
-      .map(problem => {
-        return (
-          <TopCard
-            title={problem.question}
-            subtitle={problem.detail}
-            date={problem.date}
-            id={problem._id}
-            tags={problem.tags}
-            setAdviceId={props.setAdviceId}
-          />
-        );
-      });
+    let problems_sorted = problems.sort((a, b) =>
+      a.likes > b.likes
+        ? -1
+        : a.likes < b.likes
+        ? 1
+        : a.views > b.views
+        ? -1
+        : 1
+    );
+    return problems_sorted.slice(0, 4).map(problem => {
+      return (
+        <TopCard
+          title={problem.question}
+          subtitle={problem.detail}
+          date={problem.date}
+          id={problem._id}
+          tags={problem.tags}
+          setAdviceId={props.setAdviceId}
+        />
+      );
+    });
   };
 
   const chooseProblems = () => {
@@ -151,6 +153,13 @@ const MainPage = props => {
     );
     setTotalTags(sortedTags);
     setTags([]);
+
+    fetch("post-advice-tag", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(sortedTags)
+    }).then(() => {});
+
     console.log("bod problem", bod);
     fetch("post-advice-rooms", {
       method: "post",
