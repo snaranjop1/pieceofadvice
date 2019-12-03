@@ -1,29 +1,59 @@
-.post-preview > a {
-  color: #212529;
+#problem-card {
+  margin-top: 2%;
 }
 
-.post-preview > a > .post-title {
-  font-size: 35px;
-  margin-top: 30px;
-  margin-bottom: 10px;
-  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+#problem-title {
   font-weight: 800;
+  font-family: "Poppins", sans-serif;
+  font-size: 45px;
 }
 
-.post-preview > a > .post-subtitle {
-  font-size: 1.75rem;
-  line-height: 1.2;
-  font-weight: 300;
-  margin: 0 0 10px;
+#problem-details {
+  font-weight: 400;
+  font-family: "Open Sans", sans-serif;
+  font-size: 30px;
 }
 
-.post-tag-div {
-  margin-left: 20px;
-}
-
-.post-preview > .post-meta {
-  font-size: 18px;
+#problem-date {
+  font-family: "Open Sans", sans-serif;
+  font-size: 20px;
   font-style: italic;
-  margin-top: 0;
-  color: #868e96;
+  color: gray;
+  margin-right: 5%;
+}
+
+#post-tag-div {
+  padding-left: 4%;
+}
+
+.badge {
+  font-family: "Open Sans", sans-serif;
+  font-size: 18px;
+  background: #ffa608;
+  color: white;
+  height: 100%;
+  padding-top: 10%;
+}
+
+#problem-likes {
+  font-family: "Open Sans", sans-serif;
+  font-size: 18px;
+  margin-top: 0.8%;
+  margin-bottom: 0%;
+}
+
+#problem-views {
+  font-family: "Open Sans", sans-serif;
+  font-size: 18px;
+  margin-top: 0.8%;
+  margin-bottom: 0%;
+  margin-right: 3%;
+}
+
+#problem-card a {
+  color: black;
+}
+
+#problem-card a:hover {
+  color: black;
 }

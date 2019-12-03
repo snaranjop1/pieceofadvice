@@ -1,0 +1,24 @@
+.modal-content {
+  font-size: 17px;
+  font-weight: 300;
+  font-family: "Open Sans", sans-serif;
+}
+
+.modal-title {
+  font-size: 25px;
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
+}
+
+#publishbtn {
+  background: #330033;
+  border-color: #330033;
+  font-weight: 700;
+  font-family: "Poppins", sans-serif;
+  width: 200px;
+}
+
+#publishbtn:hover {
+  background: #440044;
+  border-color: #440044;
+}

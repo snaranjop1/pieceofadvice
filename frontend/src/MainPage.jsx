@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ProblemPost from "./ProblemPost";
+import TopCard from "./TopCard";
 import Navbar from "./Navbar";
 import PostModal from "./PostModal";
 import "./MainPage.css";
@@ -18,22 +19,43 @@ const MainPage = props => {
     { tag: "2", toggled: false, amount: 1 }
   ]);
   let [filter, setFilter] = useState([]);
-  let problems = props.problems.slice(0, n).reverse();
+  let problems = props.problems;
 
   const renderPost = () => {
-    let _date = moment().format("LL");
-    return chooseProblems().map(problem => {
-      return (
-        <ProblemPost
-          title={problem.question}
-          subtitle={problem.detail}
-          date={_date}
-          id={problem._id}
-          tags={problem.tags}
-          setAdviceId={props.setAdviceId}
-        />
-      );
-    });
+    return chooseProblems()
+      .reverse()
+      .map(problem => {
+        return (
+          <ProblemPost
+            title={problem.question}
+            subtitle={problem.detail}
+            date={problem.date}
+            id={problem._id}
+            tags={problem.tags}
+            setAdviceId={props.setAdviceId}
+            likes={problem.likes}
+            views={problem.views}
+          />
+        );
+      });
+  };
+
+  const renderTopCards = () => {
+    return problems
+      .slice(0, 4)
+      .reverse()
+      .map(problem => {
+        return (
+          <TopCard
+            title={problem.question}
+            subtitle={problem.detail}
+            date={problem.date}
+            id={problem._id}
+            tags={problem.tags}
+            setAdviceId={props.setAdviceId}
+          />
+        );
+      });
   };
 
   const chooseProblems = () => {
@@ -55,10 +77,6 @@ const MainPage = props => {
   };
 
   useEffect(() => {}, []);
-
-  const moreProblems = () => {
-    setN(n + 10);
-  };
 
   const handleChangeQuestion = evt => {
     setQuestion(evt.target.value);
@@ -124,7 +142,9 @@ const MainPage = props => {
       detail: details,
       date: _date,
       tags: tags,
-      advices: []
+      advices: [],
+      likes: 0,
+      views: 0
     };
     let sortedTags = newTags().sort((a, b) =>
       a.amount > b.amount ? -1 : a.amount < b.amount ? 1 : -1
@@ -139,18 +159,7 @@ const MainPage = props => {
     }).then(() => {});
   };
 
-  const whatTag = (text, tog, amount) =>
-    tog ? (
-      <>
-        {" "}
-        {text} : {amount} &#10071;{" "}
-      </>
-    ) : (
-      <>
-        {" "}
-        {text}: {amount} &#10069;{" "}
-      </>
-    );
+  const whatTag = (text, tog, amount) => (tog ? <> {text} </> : <> {text} </>);
 
   const toggleTag = tag => {
     let copy = [...totalTags];
@@ -192,39 +201,23 @@ const MainPage = props => {
       <header className="masthead">
         <div className="overlay"></div>
         <Navbar _logged={logged} handleLoggedInChange={handleLoggedInChange} />
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-8 col-md-10 mx-auto">
-              <div className="title">
-                <h1>Welcome to Piece of Advice</h1>
-                <span className="subtitle">
-                  <em>Get Some Advice</em>
-                </span>
+      </header>
+      <div className="container">
+        <div className="row">
+          <div className="col-11 container" id="top-cards-container">
+            <div class="card-deck">{renderTopCards()}</div>
+          </div>
+          <div className="col-lg-12">
+            <div class="card shadow" id="filters-card">
+              <div className="card-body">
+                <p id="filter-p">
+                  <h1 id="tag-filter-title"> Filter by Tags </h1>
+                </p>
+                <div>{renderTotalTags()}</div>
               </div>
             </div>
           </div>
-        </div>
-      </header>
-      <div align="left" className="cat-col" id="cat-col">
-        <p id="filter-p">
-          <h5 className="h-title"> Filter by Tags! </h5>
-        </p>
-        <div>{renderTotalTags()}</div>
-      </div>
-      <div className="container">
-        <div className="row">
-          <div className="col-lg-8 col-md-10 mx-auto">
-            {renderPost()}
-            <div className="clearfix">
-              <button
-                className="btn btn-primary float-right"
-                onClick={moreProblems}
-                id="olderpostbtn"
-              >
-                Older Posts &rarr;
-              </button>
-            </div>
-          </div>
+          <div className="col-lg-9 mx-auto">{renderPost()}</div>
         </div>
       </div>
       <hr></hr>
@@ -253,7 +246,6 @@ const MainPage = props => {
           />
         </div>
       </div>
-
       <footer>
         <div className="container" id="footer">
           <div className="row">

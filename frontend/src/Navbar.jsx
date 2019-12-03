@@ -15,7 +15,7 @@ const Navbar = props => {
         data-toggle="modal"
         data-target="#exampleModalCenter"
       >
-        Share my problem
+        Sign in
       </button>
     );
   };
@@ -41,15 +41,6 @@ const Navbar = props => {
         >
           Sign Out
         </button>
-        <button
-          type="button"
-          class="btn btn-primary form-inline"
-          id="getAdvicebtn"
-          data-toggle="modal"
-          data-target="#exampleModalCenter"
-        >
-          Share my problem
-        </button>
       </>
     );
   };
@@ -57,6 +48,15 @@ const Navbar = props => {
   return (
     <div className="navbar-div">
       <nav className="navbar">
+        <button
+          type="button"
+          class="btn btn-primary form-inline"
+          id="getAdvicebtn"
+          data-toggle="modal"
+          data-target="#exampleModalCenter"
+        >
+          Share a problem
+        </button>
         <a className="navbar-brand" href="/">
           <img
             src="/logo.png"

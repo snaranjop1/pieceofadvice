@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from "react";
+import "./PostModal.css";
 
 const PostModal = props => {
   const preLogggedModal = () => {
     return (
       <div class="modal-content">
         <div class="modal-header text-center">
-          <h4 class="modal-title w-100 font-weight-bold">
-            Sign In Before Posting!
-          </h4>
+          <h4 class="modal-title w-100 font-weight-bold">Sign In</h4>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
         <div id={GOOGLE_BUTTON_ID} className="google-button" />
       </div>
@@ -19,7 +26,7 @@ const PostModal = props => {
   useEffect(() => {
     if (!props._logged) {
       window.gapi.signin2.render(GOOGLE_BUTTON_ID, {
-        width: 200,
+        width: 250,
         height: 50,
         onsuccess: onSignIn
       });
@@ -61,7 +68,7 @@ const PostModal = props => {
       <div class="modal-content">
         <div class="modal-header text-center">
           <h4 class="modal-title w-100 font-weight-bold">
-            Get Advice {props._userInfo.name}
+            Get advice {props._userInfo.name}
           </h4>
           <button
             type="button"

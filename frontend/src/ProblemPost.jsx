@@ -6,30 +6,42 @@ const ProblemPost = props => {
   let title = props.title;
   let subtitle = props.subtitle;
   let date = props.date;
-
-  const setID = () => {
-    props.setAdviceId(props.id);
-  };
+  let likes = props.likes;
+  let views = props.views;
 
   const renderTags = () => {
     return props.tags.map(_tag => {
-      return <span className="badge badge-warning btn-tag "> {_tag} </span>;
+      return (
+        <div className="col-auto">
+          <span className="badge"> {_tag} </span>
+        </div>
+      );
     });
   };
 
   return (
     <div>
-      <div className="post-preview" onMouseEnter={setID}>
-        <Link to={{ pathname: "/advice" }}>
-          <h2 className="post-title">{title}</h2>
-        </Link>
-        <h3 className="post-subtitle">{subtitle}</h3>
-        <div className="row">
-          <p className="post-meta">{"Posted on " + date}</p>
-          <div className="post-tag-div">{renderTags()}</div>
+      <div class="card shadow rounded" id="problem-card">
+        <div className="card-body">
+          <Link to={{ pathname: "/advice" }}>
+            <h1 id="problem-title">{title}</h1>
+          </Link>
+          <h2 id="problem-details">{subtitle}</h2>
+          <p id="problem-date">{date}</p>
+          <hr />
+          <div className="row">
+            <button className="btn " id="like-btn">
+              <i className="fas fa-star"></i>
+            </button>
+            <p id="problem-likes">{likes}</p>
+            <button className="btn">
+              <i className="fas fa-eye"></i>
+            </button>
+            <p id="problem-views">{views}</p>
+            {renderTags()}
+          </div>
         </div>
       </div>
-      <hr></hr>
     </div>
   );
 };
