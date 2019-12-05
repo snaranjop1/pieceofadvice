@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import "./PostModal.css";
 
 const PostModal = props => {
   const preLogggedModal = () => {
     return (
-      <div class="modal-content">
-        <div class="modal-header text-center">
-          <h4 class="modal-title w-100 font-weight-bold">Sign In</h4>
+      <div className="modal-content">
+        <div className="modal-header text-center">
+          <h4 className="modal-title w-100 font-weight-bold">Sign In</h4>
           <button
             type="button"
-            class="close"
+            className="close"
             data-dismiss="modal"
             aria-label="Close"
           >
@@ -54,10 +54,10 @@ const PostModal = props => {
           key={tag}
           type="button"
           onClick={() => props.removeTag(tag)}
-          class="btn btn-warning btn-sm btn-tag"
+          className="btn btn-sm btn-tag"
         >
-          {tag} &#10060;
-          <span class="sr-only">{tag} tag</span>
+          {tag} <i className="fas fa-times" id="delete-tag"></i>
+          <span className="sr-only">{tag} tag</span>
         </button>
       );
     });
@@ -65,24 +65,24 @@ const PostModal = props => {
 
   const loggedModal = () => {
     return (
-      <div class="modal-content">
-        <div class="modal-header text-center">
-          <h4 class="modal-title w-100 font-weight-bold">
+      <div className="modal-content">
+        <div className="modal-header text-center">
+          <h4 className="modal-title w-100 font-weight-bold">
             Get advice {props._userInfo.name}
           </h4>
           <button
             type="button"
-            class="close"
+            className="close"
             data-dismiss="modal"
             aria-label="Close"
           >
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body mx-3">
+        <div className="modal-body mx-3">
           <form>
-            <div class="form-group">
-              <label for="problem">Problem or Question</label>
+            <div className="form-group">
+              <label htmlFor="problem">Problem or Question</label>
               <input
                 type="text"
                 className="form-control"
@@ -92,8 +92,8 @@ const PostModal = props => {
                 onChange={props.handleChangeQuestion}
               />
             </div>
-            <div class="form-group">
-              <label for="problemdetails">Comments or details</label>
+            <div className="form-group">
+              <label htmlFor="problemdetails">Comments or details</label>
               <textarea
                 className="form-control"
                 id="problemdetails"
@@ -101,12 +101,14 @@ const PostModal = props => {
                 value={props.details}
                 onChange={props.handleChangeDetails}
               ></textarea>
-              <label for="problemcategories">Tags</label>
+              <label htmlFor="problemcategories">
+                Tags (Press enter after each tag)
+              </label>
               <input
                 type="text"
                 className="form-control"
                 id="problemcategories"
-                placeHolder="Add Categories!"
+                placeholder="Add Categories!"
                 maxLength="20"
                 onKeyDown={props.handleNewTag}
               ></input>
@@ -114,10 +116,10 @@ const PostModal = props => {
             </div>
           </form>
         </div>
-        <div class="modal-footer d-flex justify-content-center">
+        <div className="modal-footer d-flex justify-content-center">
           <button
             type="button"
-            class="btn btn-primary"
+            className="btn btn-primary"
             id="publishbtn"
             onClick={props.postProblem}
             data-dismiss="modal"

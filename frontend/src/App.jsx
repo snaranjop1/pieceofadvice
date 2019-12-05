@@ -23,7 +23,7 @@ function App() {
     fetch("advice-rooms")
       .then(res => res.json())
       .then(data => {
-        setAdvices(data);
+        setAdvices(data.reverse());
       });
     fetch("advice-tags")
       .then(res => res.json())
@@ -66,7 +66,6 @@ function App() {
           />
           <Route
             path="/advice/:adviceId"
-            exact
             component={p_props => (
               <AdvicePage
                 problems={advices}

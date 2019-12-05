@@ -22,3 +22,19 @@
   background: #440044;
   border-color: #440044;
 }
+
+.btn-tag {
+  margin-top: 3%;
+  color: white;
+  background: #330033;
+  border-color: #330033;
+  font-family: "Poppins", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.btn-tag:hover {
+  background: #440044;
+  border-color: #440044;
+  color: white;
+}

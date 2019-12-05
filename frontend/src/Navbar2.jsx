@@ -16,7 +16,7 @@ const Navbar2 = () => {
           Piece Of Advice
         </a>
         <Link to={"/"}>
-          <button class="btn btn-primary form-inline" id="gobackbtn">
+          <button className="btn btn-primary form-inline" id="gobackbtn">
             Go back
           </button>
         </Link>
