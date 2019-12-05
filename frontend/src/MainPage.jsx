@@ -7,7 +7,6 @@ import "./MainPage.css";
 import moment from "moment";
 
 const MainPage = props => {
-  let [n, setN] = useState(10);
   let [question, setQuestion] = useState("");
   let [details, setDetails] = useState("");
   let [tags, setTags] = useState([]);
@@ -18,22 +17,21 @@ const MainPage = props => {
   let problems = props.problems;
 
   const renderPost = () => {
-    return chooseProblems()
-      .reverse()
-      .map(problem => {
-        return (
-          <ProblemPost
-            title={problem.question}
-            subtitle={problem.detail}
-            date={problem.date}
-            id={problem._id}
-            tags={problem.tags}
-            setAdviceId={props.setAdviceId}
-            likes={problem.likes}
-            views={problem.views}
-          />
-        );
-      });
+    return chooseProblems().map(problem => {
+      return (
+        <ProblemPost
+          key={problem._id}
+          title={problem.question}
+          subtitle={problem.detail}
+          date={problem.date}
+          id={problem._id}
+          tags={problem.tags}
+          setAdviceId={props.setAdviceId}
+          likes={problem.likes}
+          views={problem.views}
+        />
+      );
+    });
   };
 
   const renderTopCards = () => {
@@ -49,6 +47,7 @@ const MainPage = props => {
     return problems_sorted.slice(0, 4).map(problem => {
       return (
         <TopCard
+          key={problem._id}
           title={problem.question}
           subtitle={problem.detail}
           date={problem.date}
@@ -214,14 +213,14 @@ const MainPage = props => {
       <div className="container">
         <div className="row">
           <div className="col-11 container" id="top-cards-container">
-            <div class="card-deck">{renderTopCards()}</div>
+            <div className="card-deck">{renderTopCards()}</div>
           </div>
           <div className="col-lg-12">
-            <div class="card shadow" id="filters-card">
+            <div className="card shadow" id="filters-card">
               <div className="card-body">
-                <p id="filter-p">
+                <div id="filter-p">
                   <h1 id="tag-filter-title"> Filter by Tags </h1>
-                </p>
+                </div>
                 <div>{renderTotalTags()}</div>
               </div>
             </div>
@@ -233,7 +232,7 @@ const MainPage = props => {
       <div
         className="modal fade"
         id="exampleModalCenter"
-        tabindex="-1"
+        tabIndex="-1"
         role="dialog"
         aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true"

@@ -10,7 +10,7 @@ const Navbar = props => {
     return (
       <button
         type="button"
-        class="btn btn-primary form-inline"
+        className="btn btn-primary form-inline"
         id="getAdvicebtn"
         data-toggle="modal"
         data-target="#exampleModalCenter"
@@ -35,7 +35,7 @@ const Navbar = props => {
       <>
         <button
           type="button"
-          class="btn btn-primary form-inline"
+          className="btn btn-primary form-inline"
           id="getAdvicebtn"
           onClick={signOut}
         >
@@ -50,7 +50,7 @@ const Navbar = props => {
       <nav className="navbar">
         <button
           type="button"
-          class="btn btn-primary form-inline"
+          className="btn btn-primary form-inline"
           id="getAdvicebtn"
           data-toggle="modal"
           data-target="#exampleModalCenter"

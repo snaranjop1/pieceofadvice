@@ -8,11 +8,12 @@ const ProblemPost = props => {
   let date = props.date;
   let likes = props.likes;
   let views = props.views;
+  let i = 0;
 
   const renderTags = () => {
     return props.tags.map(_tag => {
       return (
-        <div className="col-auto">
+        <div key={i++} className="col-auto">
           <span className="badge"> {_tag} </span>
         </div>
       );
@@ -21,7 +22,7 @@ const ProblemPost = props => {
 
   return (
     <div>
-      <div class="card shadow rounded" id="problem-card">
+      <div className="card shadow rounded" id="problem-card">
         <div className="card-body">
           <Link to={{ pathname: `/advice/${props.id}` }}>
             <h1 id="problem-title">{title}</h1>

@@ -41,11 +41,22 @@ header.masthead .title {
   color: white;
 }
 
-.btn-tag {
-  margin: 2px;
-  color: black;
+.btn-light.btn-tag {
   font-size: 18px;
   font-weight: 700;
+  background: transparent;
+  border-color: white;
+  margin-top: 1%;
+}
+
+.btn-light.btn-tag:hover {
+  background: #ffa608;
+  border-color: #ffa608;
+}
+
+.btn-warning.btn-tag {
+  background: #ffa608;
+  border-color: #ffa608;
 }
 
 header.masthead .title h1 {
