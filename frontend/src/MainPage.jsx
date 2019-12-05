@@ -1,3 +1,9 @@
+/*
+Gregorio Ospina
+Sergio Naranjo
+Universidad de los Andes
+ */
+
 import React, { useState, useEffect } from "react";
 import ProblemPost from "./ProblemPost";
 import TopCard from "./TopCard";

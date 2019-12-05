@@ -31,14 +31,6 @@ const AdvicePage = props => {
     logAdv();
   }, [problem]);
 
-  const filterAdvices = () => {
-    return props.problems.filter(adv => {
-      if (adv._id === props.adviceId) {
-        return adv;
-      }
-    })[0];
-  };
-
   const postAdvice = problem => {
     let bod = {
       advice: problem,
