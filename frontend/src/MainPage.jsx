@@ -214,7 +214,11 @@ const MainPage = props => {
     <div>
       <header className="masthead">
         <div className="overlay"></div>
-        <Navbar _logged={logged} handleLoggedInChange={handleLoggedInChange} />
+        <Navbar
+          _logged={logged}
+          handleLoggedInChange={handleLoggedInChange}
+          handleUserInfoChange={handleUserInfoChange}
+        />
       </header>
       <div className="container">
         <div className="row">

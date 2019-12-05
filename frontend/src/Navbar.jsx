@@ -26,6 +26,7 @@ const Navbar = props => {
       auth2.signOut().then(function() {
         console.log("User signed out.");
         props.handleLoggedInChange(false);
+        props.handleUserInfoChange({});
       });
     }
   };

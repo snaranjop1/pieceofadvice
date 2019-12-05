@@ -13,6 +13,10 @@
   background-color: white;
 }
 
+.modal-dialog {
+  z-index: 99;
+}
+
 #ap-problem-card-title {
   color: white;
   font-weight: 700;

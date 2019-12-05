@@ -76,14 +76,11 @@ const MyMongoLib = function() {
       const db = client.db(dbName);
       const testCol = db.collection("advice_room");
 
-      let id = body.id;
-      let likes = body.likes;
-      console.log("new like value", body);
-
+      let id = body.advice_id;
       testCol
         .updateOne(
-          { _id: ObjectId(id), "advices._id": body.advice_id },
-          { $set: { "advices.$.likes": likes } }
+          { _id: ObjectId(id), "advices.id": body.problem_id },
+          { $inc: { "advices.$.likes": 1 } }
         )
         .then(() => {});
     });
@@ -100,8 +97,7 @@ const MyMongoLib = function() {
       const testCol = db.collection("advice_room");
 
       let id = body.adviceid;
-      delete body.id;
-      console.log("advice to be added", body);
+      delete body.adviceid;
 
       testCol.updateOne(
         { _id: ObjectId(id) },
@@ -123,6 +119,18 @@ const MyMongoLib = function() {
       testCol.insertOne(body);
     });
   };
+
+  // MyMongoLib.updateProblemLike = body => {
+  //   client.connect(function(err, client) {
+  //     if (err !== null) {
+  //       throw err;
+  //     }
+  //     console.log("Connected to server");
+
+  //     const db = client.db(dbName);
+  //     const testCol = db.collection("advice_room");
+
+  // }
 
   MyMongoLib.postTag = _tags => {
     client.connect(function(err, client) {
@@ -158,7 +166,6 @@ const MyMongoLib = function() {
       // });
 
       csCursor.on("change", data => {
-        console.log("changes were made to advices", data);
         MyMongoLib.getAdviceRooms().then(data => cbk(JSON.stringify(data)));
       });
     });

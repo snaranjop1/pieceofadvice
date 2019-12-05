@@ -2,14 +2,67 @@ import React, { useState, useEffect } from "react";
 import Navbar2 from "./Navbar2";
 import Advice from "./Advice";
 import AdviceModal from "./AdviceModal";
+import uuid from "uuid/v1";
 import "./AdvicePage.css";
 
 const AdvicePage = props => {
-  let [userInfo, setUserInfo] = useState(props.userInfo);
   let [problem, setProblem] = useState({});
   let [advices, setAdvice] = useState([]);
   let [spot_token, setToken] = useState("");
   let [loaded, setLoaded] = useState(false);
+  let [userInfo, setUserInfo] = useState(props.userInfo);
+  let [logged, setLogged] = useState(props.logged);
+
+  //Future post states
+  let [text, setText] = useState("");
+  let [song, setSong] = useState(false);
+  let [songUrl, setSongUrl] = useState("");
+  let [anonymous, setAnonymous] = useState(false);
+
+  const handleAdviceChange = evt => {
+    console.log("new advice:", evt.target.value);
+    setText(evt.target.value);
+  };
+
+  const handleSongChange = evt => {
+    console.log("new song:", evt.target.value);
+    setSong(true);
+    setSongUrl(evt.target.value);
+  };
+
+  const cleanSlate = () => {
+    setAnonymous(false);
+    setSong(false);
+    setSongUrl("");
+    setText("");
+  };
+
+  const handleAnonymous = () => {
+    setAnonymous(!anonymous);
+  };
+
+  const addAdvice = () => {
+    let user = anonymous ? "anonymous" : props.userInfo.name;
+    let src = song ? songUrl : "-1";
+    let objectid = uuid();
+    console.log("objectid", objectid);
+    let advice = {
+      id: objectid,
+      adviceid: props.adviceid,
+      text: text,
+      author: user,
+      song: src,
+      likes: 1
+    };
+
+    fetch("/post-advice", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(advice)
+    }).then(() => cleanSlate());
+  };
+
+  //
   let adviceid = props.match.params.adviceId;
 
   useEffect(() => {
@@ -28,15 +81,6 @@ const AdvicePage = props => {
       });
   }, []);
 
-  const postAdvice = advice => {
-    console.log("advice", advice);
-    fetch("/post-advice", {
-      method: "post",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(advice)
-    }).then(() => {});
-  };
-
   const handleLike = (problemid, adviceid) => {
     let body = {
       advice_id: adviceid,
@@ -50,8 +94,18 @@ const AdvicePage = props => {
     }).then(() => {});
   };
 
+  const handleUserInfoChange = (info, status) => {
+    setLogged(status);
+    setUserInfo(info);
+    props.handleUserInfo_App(info);
+    props.handleLogged_App(status);
+  };
+
   const renderAdvices = () => {
-    return advices.map((adv, index) => {
+    let advicesSorted = advices.sort((a, b) =>
+      a.likes > b.likes ? -1 : b.likes > a.likes ? 1 : -1
+    );
+    return advicesSorted.map((adv, index) => {
       return (
         <Advice
           key={adviceid + "-" + index}
@@ -60,6 +114,7 @@ const AdvicePage = props => {
           likes={adv.likes}
           song={adv.song}
           adviceid={adviceid}
+          id={adv.id}
           handleLike={handleLike}
         ></Advice>
       );
@@ -145,11 +200,28 @@ const AdvicePage = props => {
           <Navbar2 />
           {loadedRender()}
         </div>
-        <AdviceModal
-          addAdvice={postAdvice}
-          userInfo={userInfo}
-          adviceid={adviceid}
-        />
+        <div
+          className="modal fade"
+          id="exampleModal2"
+          tabIndex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog" role="document">
+            <AdviceModal
+              logged={logged}
+              userInfo={userInfo}
+              addAdvice={addAdvice}
+              userInfo={userInfo}
+              adviceid={adviceid}
+              handleUserInfoChange={handleUserInfoChange}
+              handleAdviceChange={handleAdviceChange}
+              handleSongChange={handleSongChange}
+              handleAnonymous={handleAnonymous}
+            />
+          </div>
+        </div>
       </div>
     </>
   );
