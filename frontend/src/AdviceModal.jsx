@@ -1,6 +1,52 @@
-import React from "react";
+import React, { useState } from "react";
+import uuid from "uuid/v1";
 
-const AdviceModal = () => {
+const AdviceModal = props => {
+  let [text, setText] = useState("");
+  let [song, setSong] = useState(false);
+  let [songUrl, setSongUrl] = useState("");
+  let [anonymous, setAnonymous] = useState(false);
+  let [userInfo, setUserInfo] = useState(props.userInfo);
+
+  const handleAdviceChange = evt => {
+    console.log("new advice:", evt.target.value);
+    setText(evt.target.value);
+  };
+
+  const handleSongChange = evt => {
+    console.log("new song:", evt.target.value);
+    setSong(true);
+    setSongUrl(evt.target.value);
+  };
+
+  const cleanSlate = () => {
+    setAnonymous(false);
+    setSong(false);
+    setSongUrl("");
+    setText("");
+  };
+
+  const handleAnonymous = () => {
+    setAnonymous(!anonymous);
+  };
+
+  const addAdvice = () => {
+    let user = anonymous ? "anonymous" : props.userInfo.name;
+    let src = song ? songUrl : "-1";
+    let objectid = uuid();
+    console.log("objectid", objectid);
+    let advice = {
+      id: objectid,
+      adviceid: props.adviceid,
+      text: text,
+      author: user,
+      song: src,
+      likes: 1
+    };
+    props.addAdvice(advice);
+    cleanSlate();
+  };
+
   return (
     <div
       className="modal fade"
@@ -34,16 +80,26 @@ const AdviceModal = () => {
                   className="form-control"
                   id="advicetext"
                   rows="3"
+                  onChange={handleAdviceChange}
                 ></textarea>
               </div>
-              <div className="form-group">
-                <label htmlFor="author">Author (Optional):</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="author"
-                  placeholder="Sergio"
-                />
+              <div> </div>
+              <div align="left">
+                <div
+                  class="col checkbox"
+                  align="left"
+                  onClick={handleAnonymous}
+                >
+                  <input
+                    type="checkbox"
+                    data-toggle="toggle"
+                    data-onstyle="warning"
+                    data-offstyle="info"
+                    data-on="Post Anonymously"
+                    data-off={"Post as " + userInfo.name}
+                    data-width="200"
+                  />
+                </div>
               </div>
               <div className="form-group">
                 <label htmlFor="song">
@@ -65,6 +121,7 @@ const AdviceModal = () => {
               id="publishbtn"
               data-dismiss="modal"
               aria-label="Close"
+              onClick={addAdvice}
             >
               Publish
             </button>

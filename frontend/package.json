@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bootstrap-toggle": "^2.2.2",
     "dotenv": "^8.2.0",
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-react": "^7.16.0",

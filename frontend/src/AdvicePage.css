@@ -8,10 +8,20 @@
   margin-top: 5%;
 }
 
+.toggle-handle.btn.btn-default {
+  z-index: 99;
+  background-color: white;
+}
+
 #ap-problem-card-title {
   color: white;
   font-weight: 700;
   font-size: 55px;
+}
+
+.col.checkbox {
+  margin-bottom: 15px;
+  padding-left: 0;
 }
 
 #ap-problem-card-detail {

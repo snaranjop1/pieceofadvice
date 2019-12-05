@@ -4,7 +4,7 @@ import "./Advice.css";
 const Advice = props => {
   return (
     <div className="card p-3 shadow-sm">
-      {props.song !== "" && (
+      {props.song !== "-1" && (
         <iframe
           src="https://open.spotify.com/embed/album/1DFixLWuPkv3KT3TnV35m3"
           width="300"
@@ -15,7 +15,7 @@ const Advice = props => {
         ></iframe>
       )}
       <blockquote className="blockquote mb-0 card-body">
-        <p>{props.advice}</p>
+        <p>{props.text}</p>
         {props.author !== "" && (
           <footer className="blockquote-footer">
             <small className="text-muted">{props.author} </small>
@@ -24,10 +24,14 @@ const Advice = props => {
       </blockquote>
       <hr />
       <div className="row">
-        <button className="btn " id="up-btn">
+        <button
+          className="btn "
+          id="up-btn"
+          onClick={() => props.handleLike(props.id, props.adviceid)}
+        >
           <i className="far fa-thumbs-up"></i>
         </button>
-        <p id="advice-ups">{props.ups}</p>
+        <p id="advice-ups">{props.likes}</p>
       </div>
     </div>
   );

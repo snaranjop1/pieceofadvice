@@ -99,13 +99,13 @@ const MyMongoLib = function() {
       const db = client.db(dbName);
       const testCol = db.collection("advice_room");
 
-      let id = body.id;
-      let advice = body.advice;
-      console.log("advice to be added", advice);
+      let id = body.adviceid;
+      delete body.id;
+      console.log("advice to be added", body);
 
       testCol.updateOne(
         { _id: ObjectId(id) },
-        { $addToSet: { advices: advice } }
+        { $addToSet: { advices: body } }
       );
     });
   };
@@ -147,10 +147,18 @@ const MyMongoLib = function() {
 
       const db = client.db(dbName);
       const testCol = db.collection("advice_room");
+      // const tagCol = db.collection("advice_tags");
 
       const csCursor = testCol.watch();
+      // const tagCursor = tagCol.watch();
+
+      // tagCursor.on("change", data => {
+      //   console.log("new tag", data);
+      //   MyMongoLib.getAdviceTags().then(data => cbk(JSON.stringify(data)));
+      // });
+
       csCursor.on("change", data => {
-        console.log("changes were made");
+        console.log("changes were made to advices", data);
         MyMongoLib.getAdviceRooms().then(data => cbk(JSON.stringify(data)));
       });
     });

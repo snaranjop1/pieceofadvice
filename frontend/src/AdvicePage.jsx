@@ -5,10 +5,12 @@ import AdviceModal from "./AdviceModal";
 import "./AdvicePage.css";
 
 const AdvicePage = props => {
+  let [userInfo, setUserInfo] = useState(props.userInfo);
   let [problem, setProblem] = useState({});
   let [advices, setAdvice] = useState([]);
   let [spot_token, setToken] = useState("");
   let [loaded, setLoaded] = useState(false);
+  let adviceid = props.match.params.adviceId;
 
   useEffect(() => {
     fetch("spotify-token")
@@ -20,22 +22,45 @@ const AdvicePage = props => {
       .then(res => res.json())
       .then(data => {
         console.log("data", data);
-        setProblem(data);
+        setProblem(data[0]);
         setAdvice(data[0].advices);
         setLoaded(true);
       });
   }, []);
 
+  const postAdvice = advice => {
+    console.log("advice", advice);
+    fetch("/post-advice", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(advice)
+    }).then(() => {});
+  };
+
+  const handleLike = (problemid, adviceid) => {
+    let body = {
+      advice_id: adviceid,
+      problem_id: problemid
+    };
+    console.log("pre-fuck up", props.match);
+    fetch("/update-like", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body)
+    }).then(() => {});
+  };
+
   const renderAdvices = () => {
-    let i = 0;
-    return advices.map(adv => {
+    return advices.map((adv, index) => {
       return (
         <Advice
-          key={i++}
-          advice={adv.advice}
+          key={adviceid + "-" + index}
+          text={adv.text}
           author={adv.author}
-          ups={adv.ups}
+          likes={adv.likes}
           song={adv.song}
+          adviceid={adviceid}
+          handleLike={handleLike}
         ></Advice>
       );
     });
@@ -55,24 +80,24 @@ const AdvicePage = props => {
           <div className="card shadow" id="ap-problem-card">
             <div className="card-body">
               <h1 className="card-title" id="ap-problem-card-title">
-                {problem[0].question}
+                {problem.question}
               </h1>
               <div className="row">
                 <div className="col-lg-8" id="ap-problem-card-detail">
-                  {problem[0].detail}
+                  {problem.detail}
                 </div>
                 <div className="col-lg-4" id="ap-problem-card-data">
                   <div className="row">
                     <button className="btn" id="ap-problem-card-likeicon">
                       <i className="fas fa-star fa-2x"></i>
                     </button>
-                    <p id="ap-problem-card-likes">{problem[0].likes}</p>
+                    <p id="ap-problem-card-likes">{problem.likes}</p>
                   </div>
                   <div className="row">
                     <button className="btn" id="ap-problem-card-likeicon">
                       <i className="fas fa-eye fa-2x"></i>
                     </button>
-                    <p id="ap-problem-card-likes">{problem[0].views}</p>
+                    <p id="ap-problem-card-likes">{problem.views}</p>
                   </div>
                 </div>
               </div>
@@ -120,7 +145,11 @@ const AdvicePage = props => {
           <Navbar2 />
           {loadedRender()}
         </div>
-        <AdviceModal />
+        <AdviceModal
+          addAdvice={postAdvice}
+          userInfo={userInfo}
+          adviceid={adviceid}
+        />
       </div>
     </>
   );

@@ -14,6 +14,7 @@ const MyWSLib = function() {
   };
   MyWSLib.notifyAll = data => {
     for (let ws of clients) {
+      console.log("new", data);
       ws.send(data);
     }
   };

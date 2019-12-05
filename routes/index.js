@@ -34,11 +34,13 @@ router.get("/spotify-token", (req, res) => {
 });
 
 router.post("/update-like", (req, res) => {
+  console.log("like body", req.body);
   myMongoLib.updateLike(req.body);
   res.send("Updating likes");
 });
 
 router.post("/post-advice", (req, res) => {
+  console.log("en post advice", req.body);
   myMongoLib.postAdvice(req.body);
   res.send("Estoy en router");
 });
