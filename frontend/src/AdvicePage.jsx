@@ -57,8 +57,8 @@ const AdvicePage = props => {
           return res.json();
         })
         .then(data => {
+          console.log(data);
           let src = data.tracks.items[0].id;
-          console.log(src);
           if (src === undefined) {
             reject("no se encontro");
           }
