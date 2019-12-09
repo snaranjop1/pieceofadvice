@@ -1,47 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 const AdviceModal = props => {
-  const preLogggedModal = () => {
-    return (
-      <div className="modal-content">
-        <div className="modal-header text-center">
-          <h4 className="modal-title w-100 font-weight-bold">Sign In</h4>
-          <button
-            type="button"
-            className="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div id={GOOGLE_BUTTON_ID} className="google-button" />
-      </div>
+  let [anonymous, setAnonymous] = useState(false);
+  let [author, setAuthor] = useState("");
+
+  const authorInput = () => {
+    return !anonymous ? (
+      <input
+        type="text"
+        className="form-control"
+        id="author"
+        placeholder="Your name"
+        onChange={handleAuthorChange}
+      />
+    ) : (
+      <> </>
     );
   };
 
-  const GOOGLE_BUTTON_ID = "google-sign-in-button";
-
-  useEffect(() => {
-    if (!props.logged) {
-      window.gapi.signin2.render(GOOGLE_BUTTON_ID, {
-        width: 250,
-        height: 50,
-        onsuccess: onSignIn
-      });
-    }
-  }, []);
-
-  const onSignIn = googleUser => {
-    var profile = googleUser.getBasicProfile();
-    //console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    let info = {
-      name: profile.getName(),
-      email: profile.getEmail(),
-      image: profile.getImageUrl()
-    };
-    props.handleUserInfoChange(info, true);
+  const handleAuthorChange = evt => {
+    setAuthor(evt.target.value);
   };
+
+  const handleAnonymous = () => {
+    console.log("anonym", anonymous);
+    if (!anonymous) {
+      setAuthor("");
+    }
+    setAnonymous(!anonymous);
+  };
+
+  const choosAuthor = () => (anonymous ? "anonymous" : author);
 
   const loggedModal = () => {
     return (
@@ -73,16 +62,20 @@ const AdviceModal = props => {
             </div>
             <div> </div>
             <div align="left">
-              <div class="col checkbox" align="left" onClick={props.handleAnonymous}>
-                <input
-                  type="checkbox"
-                  data-toggle="toggle"
-                  data-onstyle="warning"
-                  data-offstyle="info"
-                  data-on="Post Anonymously"
-                  data-off={"Post as " + props.userInfo.name}
-                  data-width="200"
-                />
+              <div class="col checkbox" align="left">
+                <div class="custom-control custom-checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="customCheck1"
+                    onClick={handleAnonymous}
+                  />
+                  <label class="custom-control-label" for="customCheck1">
+                    {" "}
+                    Post anoymously?{" "}
+                  </label>
+                </div>
+                {authorInput()}
               </div>
             </div>
             <div className="form-group">
@@ -94,6 +87,7 @@ const AdviceModal = props => {
                 className="form-control"
                 id="song"
                 placeholder="Back in black"
+                onChange={props.handleSongChange}
               />
             </div>
           </form>
@@ -105,7 +99,7 @@ const AdviceModal = props => {
             id="publishbtn"
             data-dismiss="modal"
             aria-label="Close"
-            onClick={props.addAdvice}
+            onClick={() => props.addAdvice(choosAuthor())}
           >
             Publish
           </button>
@@ -113,7 +107,7 @@ const AdviceModal = props => {
       </div>
     );
   };
-  return props.logged ? loggedModal() : preLogggedModal();
+  return loggedModal();
 };
 
 export default AdviceModal;

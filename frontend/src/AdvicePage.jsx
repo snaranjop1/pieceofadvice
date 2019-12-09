@@ -12,20 +12,20 @@ const AdvicePage = props => {
   let [loaded, setLoaded] = useState(false);
   let [userInfo, setUserInfo] = useState(props.userInfo);
   let [logged, setLogged] = useState(props.logged);
+  let [upvoted, setUpvoted] = useState(false);
 
   //Future post states
   let [text, setText] = useState("");
   let [song, setSong] = useState(false);
   let [songUrl, setSongUrl] = useState("");
   let [anonymous, setAnonymous] = useState(false);
+  let adviceid = props.match.params.adviceId;
 
   const handleAdviceChange = evt => {
-    console.log("new advice:", evt.target.value);
     setText(evt.target.value);
   };
 
   const handleSongChange = evt => {
-    console.log("new song:", evt.target.value);
     setSong(true);
     setSongUrl(evt.target.value);
   };
@@ -41,19 +41,61 @@ const AdvicePage = props => {
     setAnonymous(!anonymous);
   };
 
-  const addAdvice = () => {
-    let user = anonymous ? "anonymous" : props.userInfo.name;
-    let src = song ? songUrl : "-1";
+  const getSongSrc = () =>
+    new Promise((resolve, reject) => {
+      let name = songUrl.replace(" ", "%20");
+      let url_1 = `https://api.spotify.com/v1/search?q=${name}&type=track&market=US&limit=1&offset=7`;
+      fetch(url_1, {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${spot_token}`,
+          "Content-Type": "application/json"
+        }
+      })
+        .then(res => {
+          console.log("songid", res);
+          return res.json();
+        })
+        .then(data => {
+          let src = data.tracks.items[0].id;
+          console.log(src);
+          if (src === undefined) {
+            reject("no se encontro");
+          }
+          resolve(src);
+        });
+    });
+
+  const addAdvice = async author => {
+    let src = "-1";
+    let user = anonymous
+      ? "anonymous"
+      : props.userInfo.name === undefined
+      ? "anonymous"
+      : props.userInfo.name;
+
+    if (song) {
+      let x = await getSongSrc().then(res => {
+        console.log("res", res);
+        src = song ? res : src;
+      });
+    }
+
+    // let src = getSongSrc().then(data => {
+    //   console.log("data", data);
+    // });
+
     let objectid = uuid();
-    console.log("objectid", objectid);
     let advice = {
       id: objectid,
-      adviceid: props.adviceid,
+      adviceid: adviceid,
       text: text,
-      author: user,
+      author: author,
       song: src,
       likes: 1
     };
+
+    console.log("advice", advice);
 
     fetch("/post-advice", {
       method: "post",
@@ -63,12 +105,12 @@ const AdvicePage = props => {
   };
 
   //
-  let adviceid = props.match.params.adviceId;
 
   useEffect(() => {
-    fetch("spotify-token")
+    fetch("/spotify-token")
       .then(res => res.json())
       .then(data => {
+        console.log(data.access_token);
         setToken(data.access_token);
       });
     fetch(`/advice-room/${props.match.params.adviceId}`)
@@ -92,6 +134,21 @@ const AdvicePage = props => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body)
     }).then(() => {});
+  };
+
+  const handleUpvote = () => {
+    let up = !upvoted;
+    let body = {
+      id: adviceid,
+      inc: up
+    };
+    fetch("/update-problem-like", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body)
+    }).then(() => {
+      setUpvoted(!upvoted);
+    });
   };
 
   const handleUserInfoChange = (info, status) => {
@@ -168,7 +225,11 @@ const AdvicePage = props => {
                   </button>
                 </div>
                 <div className="col-lg-6">
-                  <button className="btn" id="recomend-it-btn">
+                  <button
+                    className="btn"
+                    id="recomend-it-btn"
+                    onClick={handleUpvote}
+                  >
                     Recomend it
                   </button>
                 </div>
@@ -212,13 +273,14 @@ const AdvicePage = props => {
             <AdviceModal
               logged={logged}
               userInfo={userInfo}
-              addAdvice={addAdvice}
               userInfo={userInfo}
               adviceid={adviceid}
+              addAdvice={addAdvice}
               handleUserInfoChange={handleUserInfoChange}
               handleAdviceChange={handleAdviceChange}
               handleSongChange={handleSongChange}
               handleAnonymous={handleAnonymous}
+              spot_token={spot_token}
             />
           </div>
         </div>

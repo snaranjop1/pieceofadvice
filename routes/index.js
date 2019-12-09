@@ -45,6 +45,12 @@ router.post("/post-advice", (req, res) => {
   res.send("Estoy en router");
 });
 
+router.post("/update-problem-like", (req, res) => {
+  console.log("problem upvote", req.body);
+  myMongoLib.updateProblemLike(req.body);
+  res.send("Upvoting Problem");
+});
+
 router.post("/post-advice-tag", (req, res) => {
   console.log("tagBody", req.body);
   myMongoLib.postTag(req.body);

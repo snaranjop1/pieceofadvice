@@ -120,17 +120,22 @@ const MyMongoLib = function() {
     });
   };
 
-  // MyMongoLib.updateProblemLike = body => {
-  //   client.connect(function(err, client) {
-  //     if (err !== null) {
-  //       throw err;
-  //     }
-  //     console.log("Connected to server");
+  MyMongoLib.updateProblemLike = body => {
+    client.connect(function(err, client) {
+      if (err !== null) {
+        throw err;
+      }
 
-  //     const db = client.db(dbName);
-  //     const testCol = db.collection("advice_room");
+      const db = client.db(dbName);
+      const testCol = db.collection("advice_room");
+      let id = body.id;
+      let inc = body.inc === false ? -1 : 1;
 
-  // }
+      console.log("Upvoting post", id);
+
+      testCol.updateOne({ _id: ObjectId(id) }, { $inc: { likes: inc } });
+    });
+  };
 
   MyMongoLib.postTag = _tags => {
     client.connect(function(err, client) {

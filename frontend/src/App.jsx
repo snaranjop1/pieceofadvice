@@ -12,6 +12,7 @@ function App() {
 
   useEffect(() => {
     let HOST = window.location.origin.replace(/^http/, "ws");
+    // let HOST = "ws://localhost:3001";
     let ws = new WebSocket(HOST);
 
     ws.onopen = () => {
