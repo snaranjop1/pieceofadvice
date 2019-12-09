@@ -41,49 +41,32 @@ const AdvicePage = props => {
     setAnonymous(!anonymous);
   };
 
-  const getSongSrc = () =>
-    new Promise((resolve, reject) => {
-      let name = songUrl.replace(" ", "%20");
-      let url_1 = `https://api.spotify.com/v1/search?q=${name}&type=track&market=US&limit=1&offset=7`;
-      fetch(url_1, {
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${spot_token}`,
-          "Content-Type": "application/json"
-        }
+  const getSongSrc = () => {
+    let src = "-2";
+    let body = {
+      songUrl: songUrl,
+      spottoken: spot_token
+    };
+
+    return fetch("/songsrc", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body)
+    })
+      .then(res => {
+        return res.text();
       })
-        .then(res => {
-          console.log("songid", res);
-          return res.json();
-        })
-        .then(data => {
-          console.log(data);
-          let src = data.tracks.items[0].id;
-          if (src === undefined) {
-            reject("no se encontro");
-          }
-          resolve(src);
-        });
-    });
+      .then(dat => {
+        src = dat;
+        return src;
+      });
+  };
 
   const addAdvice = async author => {
     let src = "-1";
-    let user = anonymous
-      ? "anonymous"
-      : props.userInfo.name === undefined
-      ? "anonymous"
-      : props.userInfo.name;
-
     if (song) {
-      let x = await getSongSrc().then(res => {
-        console.log("res", res);
-        src = song ? res : src;
-      });
+      src = await getSongSrc();
     }
-
-    // let src = getSongSrc().then(data => {
-    //   console.log("data", data);
-    // });
 
     let objectid = uuid();
     let advice = {
@@ -110,13 +93,11 @@ const AdvicePage = props => {
     fetch("/spotify-token")
       .then(res => res.json())
       .then(data => {
-        console.log(data.access_token);
         setToken(data.access_token);
       });
     fetch(`/advice-room/${props.match.params.adviceId}`)
       .then(res => res.json())
       .then(data => {
-        console.log("data", data);
         setProblem(data[0]);
         setAdvice(data[0].advices);
         setLoaded(true);
@@ -128,7 +109,6 @@ const AdvicePage = props => {
       advice_id: adviceid,
       problem_id: problemid
     };
-    console.log("pre-fuck up", props.match);
     fetch("/update-like", {
       method: "post",
       headers: { "Content-Type": "application/json" },

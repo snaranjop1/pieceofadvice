@@ -3,7 +3,6 @@ import "./Advice.css";
 
 const Advice = props => {
   let src = `https://open.spotify.com/embed/track/${props.song}`;
-  console.log(src);
   return (
     <div className="card p-3 shadow-sm">
       {props.song !== "-1" && (

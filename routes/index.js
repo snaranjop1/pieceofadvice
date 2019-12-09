@@ -33,6 +33,32 @@ router.get("/spotify-token", (req, res) => {
     });
 });
 
+router.post("/songsrc", (req, res) => {
+  console.log("body", req.body);
+  let name = req.body.songUrl.replace(" ", "%20");
+  let spot_token = req.body.spottoken;
+  let url_1 = `https://api.spotify.com/v1/search?q=${name}&type=track&market=US&limit=1&offset=7`;
+  fetch(url_1, {
+    headers: {
+      Authorization: `Bearer ${spot_token}`,
+      "Content-Type": "application/json"
+    }
+  })
+    .then(res => {
+      console.log("res", res);
+      return res.json();
+    })
+    .then(data => {
+      console.log("data", data);
+      let src = data.tracks.items[0].id;
+      if (src === undefined) {
+        res.send("no se encontro");
+      } else {
+        res.send(src);
+      }
+    });
+});
+
 router.post("/update-like", (req, res) => {
   console.log("like body", req.body);
   myMongoLib.updateLike(req.body);
