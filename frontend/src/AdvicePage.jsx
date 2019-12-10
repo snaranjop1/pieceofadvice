@@ -22,25 +22,25 @@ const AdvicePage = props => {
   let [anonymous, setAnonymous] = useState(false);
   let adviceid = props.match.params.adviceId;
 
-  const handleAdviceChange = evt => {
+  const handleAdviceChange = React.useCallback(evt => {
     setText(evt.target.value);
-  };
+  });
 
-  const handleMovieChange = evt => {
+  const handleMovieChange = React.useCallback(evt => {
     setMovie(true);
     setMovieName(evt.target.value);
-  };
+  });
 
-  const cleanSlate = () => {
+  const cleanSlate = React.useCallback(() => {
     setAnonymous(false);
     setMovie(false);
     setMovieName("");
     setText("");
-  };
+  });
 
-  const handleAnonymous = () => {
+  const handleAnonymous = React.useCallback(() => {
     setAnonymous(!anonymous);
-  };
+  }, [anonymous]);
 
   // const getSongSrc = () => {
   //   let src = "-2";
