@@ -120,11 +120,6 @@ const AdvicePage = props => {
   //
 
   useEffect(() => {
-    fetch("/spotify-token")
-      .then(res => res.json())
-      .then(data => {
-        setToken(data.access_token);
-      });
     fetch(`/advice-room/${props.match.params.adviceId}`)
       .then(res => res.json())
       .then(data => {
