@@ -70,7 +70,7 @@ const AdviceMenu = props => {
     let template = "http://www.omdbapi.com/?apikey=6f39c21a&";
     let url = "";
     if (name === "") {
-      setErr("You must type the name");
+      alert("You must type the name");
       console.log(err);
       return;
     } else if (year !== "") {

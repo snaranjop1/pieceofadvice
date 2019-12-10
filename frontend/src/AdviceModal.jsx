@@ -80,14 +80,14 @@ const AdviceModal = props => {
             </div>
             <div className="form-group">
               <label htmlFor="song">
-                Recommend a song (Just type the name):
+                Recommend a movie (Just type the name):
               </label>
               <input
                 type="text"
                 className="form-control"
                 id="song"
                 placeholder="Back in black"
-                onChange={props.handleSongChange}
+                onChange={props.handleMovieChange}
               />
             </div>
           </form>

@@ -16,8 +16,9 @@ const AdvicePage = props => {
 
   //Future post states
   let [text, setText] = useState("");
-  let [song, setSong] = useState(false);
-  let [songUrl, setSongUrl] = useState("");
+  let [movie, setMovie] = useState(false);
+  let [movieName, setMovieName] = useState("");
+  let [movieInfo, setMovieInfo] = useState({});
   let [anonymous, setAnonymous] = useState(false);
   let adviceid = props.match.params.adviceId;
 
@@ -25,15 +26,15 @@ const AdvicePage = props => {
     setText(evt.target.value);
   };
 
-  const handleSongChange = evt => {
-    setSong(true);
-    setSongUrl(evt.target.value);
+  const handleMovieChange = evt => {
+    setMovie(true);
+    setMovieName(evt.target.value);
   };
 
   const cleanSlate = () => {
     setAnonymous(false);
-    setSong(false);
-    setSongUrl("");
+    setMovie(false);
+    setMovieName("");
     setText("");
   };
 
@@ -41,31 +42,59 @@ const AdvicePage = props => {
     setAnonymous(!anonymous);
   };
 
-  const getSongSrc = () => {
-    let src = "-2";
-    let body = {
-      songUrl: songUrl,
-      spottoken: spot_token
-    };
+  // const getSongSrc = () => {
+  //   let src = "-2";
+  //   let body = {
+  //     songUrl: songUrl,
+  //     spottoken: spot_token
+  //   };
 
-    return fetch("/songsrc", {
-      method: "post",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body)
-    })
-      .then(res => {
-        return res.text();
+  //   return fetch("/songsrc", {
+  //     method: "post",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify(body)
+  //   })
+  //     .then(res => {
+  //       return res.text();
+  //     })
+  //     .then(dat => {
+  //       src = dat;
+  //       return src;
+  //     });
+  // };
+
+  const fetchMovie = name => {
+    let template = "http://www.omdbapi.com/?apikey=6f39c21a&";
+    let url = "";
+    if (name === "") {
+      alert("You must type the name");
+      return;
+    } else {
+      url = `${template}t=${name}`;
+    }
+    return fetch(url)
+      .then(res => res.json())
+      .catch(err => {
+        console.log(err);
       })
-      .then(dat => {
-        src = dat;
-        return src;
+      .then(data => {
+        let err = data.Error;
+        if (err === undefined) {
+          console.log("data", data);
+          cleanSlate();
+          return data;
+        } else {
+          console.log(err);
+          cleanSlate();
+        }
       });
   };
 
   const addAdvice = async author => {
     let src = "-1";
-    if (song) {
-      src = await getSongSrc();
+    let minfo = {};
+    if (movie) {
+      minfo = await fetchMovie(movieName);
     }
 
     let objectid = uuid();
@@ -75,6 +104,7 @@ const AdvicePage = props => {
       text: text,
       author: author,
       song: src,
+      minfo: minfo,
       likes: 1
     };
 
@@ -149,7 +179,7 @@ const AdvicePage = props => {
           text={adv.text}
           author={adv.author}
           likes={adv.likes}
-          song={adv.song}
+          minfo={adv.minfo}
           adviceid={adviceid}
           id={adv.id}
           handleLike={handleLike}
@@ -258,7 +288,7 @@ const AdvicePage = props => {
               addAdvice={addAdvice}
               handleUserInfoChange={handleUserInfoChange}
               handleAdviceChange={handleAdviceChange}
-              handleSongChange={handleSongChange}
+              handleMovieChange={handleMovieChange}
               handleAnonymous={handleAnonymous}
               spot_token={spot_token}
             />
