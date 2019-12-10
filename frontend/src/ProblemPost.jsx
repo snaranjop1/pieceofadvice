@@ -35,10 +35,6 @@ const ProblemPost = props => {
               <i className="fas fa-star"></i>
             </button>
             <p id="problem-likes">{likes}</p>
-            <button className="btn">
-              <i className="fas fa-eye"></i>
-            </button>
-            <p id="problem-views">{views}</p>
             {renderTags()}
           </div>
         </div>

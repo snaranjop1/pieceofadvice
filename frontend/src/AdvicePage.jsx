@@ -210,12 +210,6 @@ const AdvicePage = props => {
                     </button>
                     <p id="ap-problem-card-likes">{problem.likes}</p>
                   </div>
-                  <div className="row">
-                    <button className="btn" id="ap-problem-card-likeicon">
-                      <i className="fas fa-eye fa-2x"></i>
-                    </button>
-                    <p id="ap-problem-card-likes">{problem.views}</p>
-                  </div>
                 </div>
               </div>
               <div className="row text-center">
