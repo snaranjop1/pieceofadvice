@@ -1,3 +1,11 @@
+/* Code Review - Daniel Ramirez:
+En general me parecio que el proyecto tiene una muy buena intension con el fin de ayudar a muchas personas
+con sus diferentes problemas, por otra parte se ve que tuvieron problemas con la distribucion de trabajo en
+el proyecto. Aunque el proyecto no se desplego correctamente a la fecha, el codigo en general esta bien estructurado.
+Se pudo encontrar unas malas practicas a la hora de utilizar los props dentro del useState, pero de resto me parece que
+el repositorio esta bien estructurado y fueron ordenados en el codigo que desarrollaron.
+*/
+
 var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
